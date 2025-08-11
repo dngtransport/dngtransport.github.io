@@ -1,63 +1,290 @@
 /**
- * Google Apps Script for DNG Transport Booking System
- * 
- * This script receives booking data from the web form and saves it to Google Sheets.
- * 
- * Setup Instructions:
- * 1. Go to script.google.com
- * 2. Create a new project
- * 3. Replace the default code with this script
- * 4. Deploy as a web app with these settings:
- *    - Execute as: Me
- *    - Who has access: Anyone
- * 5. Copy the deployment URL and paste it in your HTML file where it says 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'
- * 6. Create a Google Sheet and update the SHEET_ID below
+ * DNG Transport Booking System - Google Apps Script
+ * Clean, minimal, and professional Google Sheets integration
  */
 
 // Configuration
-const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID_HERE'; // Replace with your Google Sheet ID
-const SHEET_NAME = 'Bookings'; // Name of the sheet tab
+const SHEET_ID = '1bYFCkDn6OMfBfDXS0VP8ulOa91cknvnChs95_qwhCk0';
+const SHEET_NAME = 'Bookings';
+
+// Minimal Brand Colors - Professional Design
+const BRAND_COLORS = {
+  primary: '#2563eb',     // Professional blue
+  light: '#f1f5f9',       // Very light gray
+  white: '#ffffff',       // White
+  border: '#e2e8f0',      // Light border
+  text: '#334155',        // Professional gray
+  success: '#10b981',     // Clean green
+  warning: '#f59e0b'      // Clean amber
+};
 
 /**
- * Handle POST requests from the web form
+ * Creates a minimal, clean, and professional booking sheet
+ */
+function createBookingSheet() {
+  try {
+    const spreadsheet = SpreadsheetApp.openById(SHEET_ID);
+    let sheet = spreadsheet.getSheetByName(SHEET_NAME);
+
+    // Create or reset the sheet safely
+    if (sheet) {
+      // Safely clear everything
+      try {
+        // First, break apart any merged cells
+        const dataRange = sheet.getDataRange();
+        if (dataRange.getNumRows() > 0 && dataRange.getNumColumns() > 0) {
+          dataRange.breakApart();
+        }
+        
+        // Clear all content and formatting
+        sheet.clear();
+        sheet.clearFormats();
+        sheet.clearConditionalFormatRules();
+        sheet.clearDataValidations();
+      } catch (e) {
+        Logger.log('Sheet clearing completed with minor warnings: ' + e.message);
+      }
+    } else {
+      sheet = spreadsheet.insertSheet(SHEET_NAME);
+    }
+
+    // Clean, minimal headers
+    const headers = [
+      "Date & Time",
+      "Booking ID", 
+      "Customer Name",
+      "Phone",
+      "Destination",
+      "Travel Date",
+      "Bus Type",
+      "Price",
+      "Special Requests",
+      "Emergency Contact",
+      "Emergency Phone",
+      "Status",
+      "Payment Status"
+    ];
+
+    // Simple title - no merge to avoid issues
+    sheet.getRange(1, 1)
+      .setValue("DNG TRANSPORT - BOOKING DASHBOARD")
+      .setFontSize(12)
+      .setFontWeight("bold")
+      .setBackground(BRAND_COLORS.primary)
+      .setFontColor(BRAND_COLORS.white)
+      .setHorizontalAlignment("center");
+
+    // Extend title background across all columns
+    sheet.getRange(1, 1, 1, headers.length)
+      .setBackground(BRAND_COLORS.primary)
+      .setFontColor(BRAND_COLORS.white);
+
+    // Set clean headers
+    sheet.getRange(2, 1, 1, headers.length).setValues([headers]);
+    sheet.getRange(2, 1, 1, headers.length)
+      .setFontWeight("bold")
+      .setFontSize(10)
+      .setBackground(BRAND_COLORS.light)
+      .setFontColor(BRAND_COLORS.text)
+      .setHorizontalAlignment("center")
+      .setVerticalAlignment("middle")
+      .setBorder(true, true, true, true, false, false, BRAND_COLORS.border, SpreadsheetApp.BorderStyle.SOLID);
+
+    // Freeze header rows
+    sheet.setFrozenRows(2);
+
+    // Set optimal column widths
+    const columnWidths = [140, 120, 150, 120, 130, 110, 90, 90, 200, 150, 120, 130, 130];
+    columnWidths.forEach((width, index) => {
+      sheet.setColumnWidth(index + 1, width);
+    });
+
+    // Apply professional formatting and validation
+    setupColumnFormatting(sheet, headers.length);
+    addDropdownValidation(sheet);
+
+    Logger.log('✅ Professional booking sheet created successfully');
+    return sheet;
+    
+  } catch (error) {
+    Logger.log('❌ Error creating booking sheet: ' + error.message);
+    throw error;
+  }
+}
+
+
+/**
+ * Setup professional column formatting
+ */
+function setupColumnFormatting(sheet, headerCount) {
+  // Date columns formatting
+  sheet.getRange('A3:A1000').setNumberFormat('dd/mm/yyyy hh:mm'); // Timestamp
+  sheet.getRange('F3:F1000').setNumberFormat('dd/mm/yyyy'); // Travel Date
+  
+  // Price column formatting
+  sheet.getRange('H3:H1000').setNumberFormat('₵#,##0.00');
+  
+  // Text alignment for better readability
+  sheet.getRange('A3:A1000').setHorizontalAlignment('center'); // Timestamp
+  sheet.getRange('B3:B1000').setHorizontalAlignment('center'); // Booking ID
+  sheet.getRange('D3:E1000').setHorizontalAlignment('left'); // Phone, Destination
+  sheet.getRange('F3:H1000').setHorizontalAlignment('center'); // Date, Bus Type, Price
+  sheet.getRange('L3:M1000').setHorizontalAlignment('center'); // Status columns
+  
+  // Add subtle alternating row colors for better readability
+  const dataRange = sheet.getRange(3, 1, 997, headerCount);
+  dataRange.applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY);
+}
+
+/**
+ * Add dropdown validation for status columns
+ */
+function addDropdownValidation(sheet) {
+  // Bus Type dropdown
+  const busTypeRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList(['Sprinter', 'VIP'], true)
+    .setAllowInvalid(false)
+    .setHelpText('Select bus type')
+    .build();
+  sheet.getRange('G3:G1000').setDataValidation(busTypeRule);
+
+  // Booking Status dropdown
+  const statusRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList([
+      'Confirmed',
+      'Pending', 
+      'Completed',
+      'Cancelled'
+    ], true)
+    .setAllowInvalid(false)
+    .setHelpText('Select booking status')
+    .build();
+  sheet.getRange('L3:L1000').setDataValidation(statusRule);
+
+  // Payment Status dropdown
+  const paymentRule = SpreadsheetApp.newDataValidation()
+    .requireValueInList([
+      'Paid',
+      'Pending',
+      'Partial',
+      'Refunded'
+    ], true)
+    .setAllowInvalid(false)
+    .setHelpText('Select payment status')
+    .build();
+  sheet.getRange('M3:M1000').setDataValidation(paymentRule);
+}
+
+/**
+ * Save booking data to the sheet with clean formatting
+ */
+function saveBookingToSheet(booking) {
+  try {
+    let sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+    
+    // Create sheet if it doesn't exist
+    if (!sheet) {
+      sheet = createBookingSheet();
+    }
+
+    // Prepare clean row data
+    const rowData = [
+      new Date(booking.timestamp || new Date()),
+      booking.bookingReference || generateBookingReference(),
+      booking.fullName || '',
+      booking.phoneNumber || '',
+      booking.destination || '',
+      booking.travelDate || '',
+      booking.busType === 'vip' ? 'VIP' : 'Sprinter',
+      parseFloat(booking.price) || 0,
+      booking.specialRequests || '',
+      booking.emergencyName || '',
+      booking.emergencyPhone || '',
+      'Pending',
+      'Pending'
+    ];
+
+    // Add the booking to the sheet
+    sheet.appendRow(rowData);
+    
+    // Get the row that was just added
+    const lastRow = sheet.getLastRow();
+    const newRowRange = sheet.getRange(lastRow, 1, 1, rowData.length);
+    
+    // Apply clean formatting
+    newRowRange.setFontFamily('Arial')
+               .setFontSize(9)
+               .setVerticalAlignment('middle');
+
+    // Highlight VIP bookings subtly
+    if (booking.busType === 'vip') {
+      sheet.getRange(lastRow, 7).setBackground('#fef3c7').setFontWeight('bold');
+    }
+
+    Logger.log('✅ Booking saved successfully: ' + booking.bookingReference);
+    return { success: true, message: 'Booking saved successfully' };
+
+  } catch (error) {
+    Logger.log('❌ Error saving booking: ' + error.message);
+    return { success: false, message: error.message };
+  }
+}
+
+    // Auto-resize if needed
+    sheet.autoResizeColumns(1, rowData.length);
+
+    Logger.log(`✅ Booking saved with beautiful formatting for: ${booking.fullName}`);
+    
+    return {
+      success: true,
+      row: lastRow,
+      data: booking,
+      sheetUrl: `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit#gid=${sheet.getSheetId()}`
+    };
+    
+  } catch (error) {
+    Logger.log(`❌ Error saving booking: ${error.message}`);
+    throw new Error(`Failed to save booking: ${error.message}`);
+  }
+}
+
+/**
+ * Handle POST requests from the booking form
  */
 function doPost(e) {
   try {
-    // Parse the request data
+    // Parse the incoming booking data
     const data = JSON.parse(e.postData.contents);
     
-    // Generate a simple booking reference
-    const bookingRef = generateBookingReference();
-    data.bookingReference = bookingRef;
+    // Generate booking reference if not provided
+    if (!data.bookingReference) {
+      data.bookingReference = generateBookingReference();
+    }
     
     // Save to Google Sheets
     const result = saveBookingToSheet(data);
     
-    // Return success response
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        success: true,
-        message: 'Booking saved successfully',
-        bookingReference: bookingRef,
-        data: {
-          fullName: data.fullName,
-          destination: data.destination,
-          travelDate: data.travelDate,
-          busType: data.busType,
-          price: data.price
-        },
-        timestamp: new Date().toISOString()
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
+    if (result.success) {
+      return ContentService
+        .createTextOutput(JSON.stringify({
+          success: true,
+          message: 'Booking saved successfully!',
+          bookingReference: data.bookingReference,
+          timestamp: new Date().toISOString()
+        }))
+        .setMimeType(ContentService.MimeType.JSON);
+    } else {
+      throw new Error(result.message);
+    }
       
   } catch (error) {
-    console.error('Error processing booking:', error);
+    Logger.log('❌ Error processing booking: ' + error.message);
     
-    // Return error response
     return ContentService
       .createTextOutput(JSON.stringify({
         success: false,
         error: error.toString(),
+        message: 'Please try again or contact support.',
         timestamp: new Date().toISOString()
       }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -65,20 +292,19 @@ function doPost(e) {
 }
 
 /**
- * Handle GET requests (for testing)
+ * Handle GET requests for testing
  */
 function doGet(e) {
   return ContentService
-    .createTextOutput(JSON.stringify({
-      message: 'DNG Transport Booking API is running',
-      timestamp: new Date().toISOString(),
-      version: '1.0.0'
+    .createTextOutput(JSON.stringify({ 
+      message: "DNG Transport Booking System - API Active",
+      timestamp: new Date().toISOString()
     }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
 /**
- * Generate a simple booking reference
+ * Generate unique booking reference
  */
 function generateBookingReference() {
   const date = new Date();
@@ -91,234 +317,31 @@ function generateBookingReference() {
 }
 
 /**
- * Save booking data to Google Sheets
+ * Test function to create the booking sheet
  */
-function saveBookingToSheet(booking) {
+function testCreateSheet() {
   try {
-    // Open the spreadsheet
-    const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+    const sheet = createBookingSheet();
+    Logger.log('✅ Test sheet created successfully');
     
-    // If sheet doesn't exist, create it with headers
-    if (!sheet) {
-      const newSheet = SpreadsheetApp.openById(SHEET_ID).insertSheet(SHEET_NAME);
-      const headers = [
-        'Timestamp',
-        'Booking Reference',
-        'Full Name',
-        'Phone Number',
-        'Destination',
-        'Travel Date',
-        'Bus Type',
-        'Price (GHS)',
-        'Special Requests',
-        'Emergency Contact Name',
-        'Emergency Contact Phone',
-        'Status',
-        'Payment Status',
-        'Notes'
-      ];
-      newSheet.getRange(1, 1, 1, headers.length).setValues([headers]);
-      newSheet.getRange(1, 1, 1, headers.length).setBackground('#4285f4').setFontColor('#ffffff').setFontWeight('bold');
-      newSheet.setFrozenRows(1);
-      
-      // Auto-resize columns
-      newSheet.autoResizeColumns(1, headers.length);
-      
-      return saveBookingToSheet(booking); // Retry with the newly created sheet
-    }
-    
-    // Prepare the row data
-    const rowData = [
-      new Date(booking.timestamp || new Date()),
-      booking.bookingReference || '',
-      booking.fullName || '',
-      booking.phoneNumber || '',
-      booking.destination || '',
-      booking.travelDate || '',
-      booking.busType === 'vip' ? 'VIP' : 'Sprinter',
-      booking.price || 0,
-      booking.specialRequests || '',
-      booking.emergencyName || '',
-      booking.emergencyPhone || '',
-      'Pending Confirmation',
-      'Not Paid',
-      ''
-    ];
-    
-    // Add the row to the sheet
-    sheet.appendRow(rowData);
-    
-    // Format the new row
-    const lastRow = sheet.getLastRow();
-    const range = sheet.getRange(lastRow, 1, 1, rowData.length);
-    
-    // Alternate row colors
-    if (lastRow % 2 === 0) {
-      range.setBackground('#f8f9fa');
-    }
-    
-    // Format specific columns
-    sheet.getRange(lastRow, 1).setNumberFormat('yyyy-mm-dd hh:mm:ss'); // Timestamp
-    sheet.getRange(lastRow, 6).setNumberFormat('yyyy-mm-dd'); // Travel Date
-    sheet.getRange(lastRow, 8).setNumberFormat('#,##0.00'); // Price
-    
-    // Auto-resize columns if needed
-    sheet.autoResizeColumns(1, rowData.length);
-    
-    console.log(`Booking saved successfully for: ${booking.fullName}`);
-    
-    return {
-      success: true,
-      row: lastRow,
-      data: booking
+    // Add a sample booking for testing
+    const sampleBooking = {
+      timestamp: new Date(),
+      fullName: 'Test Customer',
+      phoneNumber: '0551234567',
+      destination: 'Kumasi',
+      travelDate: '2024-01-15',
+      busType: 'vip',
+      price: 150,
+      specialRequests: 'Window seat',
+      emergencyName: 'Emergency Contact',
+      emergencyPhone: '0557654321'
     };
     
-  } catch (error) {
-    console.error('Error saving to sheet:', error);
-    throw new Error(`Failed to save booking: ${error.message}`);
-  }
-}
-
-/**
- * Test function to verify the script works
- */
-function testSaveBooking() {
-  const testBooking = {
-    fullName: 'John Doe',
-    phoneNumber: '0551234567',
-    destination: 'Kumasi',
-    travelDate: '2025-08-15',
-    busType: 'sprinter',
-    price: 117,
-    specialRequests: 'Please arrange pickup from Old Site Terminal',
-    emergencyName: 'Jane Doe',
-    emergencyPhone: '0557654321',
-    timestamp: new Date().toISOString(),
-    bookingReference: generateBookingReference()
-  };
-  
-  try {
-    const result = saveBookingToSheet(testBooking);
-    console.log('Test successful:', result);
-    return result;
-  } catch (error) {
-    console.error('Test failed:', error);
-    return { success: false, error: error.toString() };
-  }
-}
-
-/**
- * Initialize the sheet with proper formatting
- */
-function initializeSheet() {
-  try {
-    const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
-    
-    if (sheet) {
-      console.log('Sheet already exists');
-      return;
-    }
-    
-    // Create the sheet
-    const newSheet = SpreadsheetApp.openById(SHEET_ID).insertSheet(SHEET_NAME);
-    
-    const headers = [
-      'Timestamp',
-      'Booking Reference',
-      'Full Name',
-      'Phone Number',
-      'Destination',
-      'Travel Date',
-      'Bus Type',
-      'Price (GHS)',
-      'Special Requests',
-      'Emergency Contact Name',
-      'Emergency Contact Phone',
-      'Status',
-      'Payment Status',
-      'Notes'
-    ];
-    
-    // Set headers
-    newSheet.getRange(1, 1, 1, headers.length).setValues([headers]);
-    
-    // Format headers
-    const headerRange = newSheet.getRange(1, 1, 1, headers.length);
-    headerRange.setBackground('#1e3c72');
-    headerRange.setFontColor('#ffffff');
-    headerRange.setFontWeight('bold');
-    headerRange.setHorizontalAlignment('center');
-    
-    // Set column widths
-    newSheet.setColumnWidth(1, 150); // Timestamp
-    newSheet.setColumnWidth(2, 120); // Booking Reference
-    newSheet.setColumnWidth(3, 150); // Full Name
-    newSheet.setColumnWidth(4, 120); // Phone Number
-    newSheet.setColumnWidth(5, 120); // Destination
-    newSheet.setColumnWidth(6, 100); // Travel Date
-    newSheet.setColumnWidth(7, 100); // Bus Type
-    newSheet.setColumnWidth(8, 100); // Price
-    newSheet.setColumnWidth(9, 250); // Special Requests
-    newSheet.setColumnWidth(10, 150); // Emergency Contact Name
-    newSheet.setColumnWidth(11, 120); // Emergency Contact Phone
-    newSheet.setColumnWidth(12, 120); // Status
-    newSheet.setColumnWidth(13, 120); // Payment Status
-    newSheet.setColumnWidth(14, 200); // Notes
-    
-    // Freeze the header row
-    newSheet.setFrozenRows(1);
-    
-    console.log('Sheet initialized successfully');
+    const result = saveBookingToSheet(sampleBooking);
+    Logger.log('Sample booking result: ' + JSON.stringify(result));
     
   } catch (error) {
-    console.error('Error initializing sheet:', error);
-    throw error;
-  }
-}
-
-/**
- * Get booking statistics
- */
-function getBookingStats() {
-  try {
-    const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
-    
-    if (!sheet || sheet.getLastRow() <= 1) {
-      return { totalBookings: 0, totalRevenue: 0, destinations: {} };
-    }
-    
-    const data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 14).getValues();
-    
-    let totalRevenue = 0;
-    const destinations = {};
-    
-    data.forEach(row => {
-      const [timestamp, bookingRef, fullName, phoneNumber, destination, travelDate, busType, price] = row;
-      
-      if (destination) {
-        if (!destinations[destination]) {
-          destinations[destination] = { count: 0, revenue: 0, busTypes: {} };
-        }
-        destinations[destination].count++;
-        destinations[destination].revenue += Number(price) || 0;
-        
-        if (!destinations[destination].busTypes[busType]) {
-          destinations[destination].busTypes[busType] = 0;
-        }
-        destinations[destination].busTypes[busType]++;
-      }
-      
-      totalRevenue += Number(price) || 0;
-    });
-    
-    return {
-      totalBookings: data.length,
-      totalRevenue: totalRevenue,
-      destinations: destinations
-    };
-    
-  } catch (error) {
-    console.error('Error getting booking stats:', error);
-    return { error: error.toString() };
+    Logger.log('❌ Test failed: ' + error.message);
   }
 }

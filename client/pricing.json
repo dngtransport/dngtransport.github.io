@@ -1,169 +1,255 @@
 {
-  "destinations": [
-    {
-      "id": 1,
-      "destination": "Kumasi",
-      "region": "Ashanti Region",
-      "sprinterBus": 117,
-      "vipBus": 150,
-      "vipAvailable": true,
-      "category": "regional",
-      "distance": "200km",
-      "duration": "3.5 hours"
+    "destinations": [
+        {
+            "id": 1,
+            "destination": "Kumasi",
+            "region": "Ashanti Region",
+            "sprinterBus": 117,
+            "vipBus": 150,
+            "vipAvailable": true,
+            "category": "regional",
+            "distance": "200km",
+            "availableDates": [
+                "2025-08-15",
+                "2025-08-18",
+                "2025-08-22",
+                "2025-08-25",
+                "2025-08-29"
+            ],
+            "duration": "3.5 hours"
+        },
+        {
+            "id": 2,
+            "destination": "Tema",
+            "region": "Greater Accra",
+            "sprinterBus": 91,
+            "vipBus": null,
+            "vipAvailable": false,
+            "category": "urban",
+            "distance": "150km",
+            "availableDates": [
+                "2025-08-16",
+                "2025-08-19",
+                "2025-08-23",
+                "2025-08-26",
+                "2025-08-30"
+            ],
+            "duration": "2.5 hours"
+        },
+        {
+            "id": 3,
+            "destination": "Ashaiman",
+            "region": "Greater Accra",
+            "sprinterBus": 91,
+            "vipBus": null,
+            "availableDates": [
+                "2025-08-15",
+                "2025-08-18",
+                "2025-08-22",
+                "2025-08-25"
+            ],
+            "vipAvailable": false,
+            "category": "urban",
+            "distance": "150km",
+            "duration": "2.5 hours"
+        },
+        {
+            "id": 4,
+            "destination": "Madina/Adenta",
+            "region": "Greater Accra",
+            "sprinterBus": 86,
+            "vipBus": null,
+            "vipAvailable": false,
+            "availableDates": [
+                "2025-08-15",
+                "2025-08-18",
+                "2025-08-22",
+                "2025-08-25"
+            ],
+            "category": "urban",
+            "distance": "140km",
+            "duration": "2.3 hours"
+        },
+        {
+            "id": 5,
+            "destination": "Kaneshie/Circle",
+            "region": "Greater Accra",
+            "sprinterBus": 77,
+            "vipBus": 117,
+            "availableDates": [
+                "2025-08-14",
+                "2025-08-17",
+                "2025-08-21",
+                "2025-08-24",
+                "2025-08-28"
+            ],
+            "vipAvailable": true,
+            "category": "urban",
+            "distance": "120km",
+            "duration": "2 hours"
+        },
+        {
+            "id": 6,
+            "destination": "Kasoa",
+            "region": "Central Region",
+            "sprinterBus": 72,
+            "vipBus": null,
+            "availableDates": [
+                "2025-08-15",
+                "2025-08-18",
+                "2025-08-22",
+                "2025-08-25"
+            ],
+            "vipAvailable": false,
+            "category": "regional",
+            "distance": "100km",
+            "duration": "1.5 hours"
+        },
+        {
+            "id": 7,
+            "destination": "Koforidua",
+            "region": "Eastern Region",
+            "sprinterBus": 152,
+            "vipBus": null,
+            "vipAvailable": false,
+            "category": "regional",
+            "availableDates": [
+                "2025-08-15",
+                "2025-08-18",
+                "2025-08-22",
+                "2025-08-25"
+            ],
+            "distance": "220km",
+            "duration": "4 hours"
+        },
+        {
+            "id": 8,
+            "destination": "Akim Oda",
+            "region": "Eastern Region",
+            "sprinterBus": 86,
+            "vipBus": null,
+            "vipAvailable": false,
+            "category": "regional",
+            "distance": "130km",
+            "availableDates": [
+                "2025-08-15",
+                "2025-08-18",
+                "2025-08-22",
+                "2025-08-25"
+            ],
+            "duration": "2.2 hours"
+        },
+        {
+            "id": 9,
+            "destination": "Pokuase/Amasaman",
+            "region": "Greater Accra",
+            "sprinterBus": 81,
+            "vipBus": null,
+            "vipAvailable": false,
+            "category": "urban",
+            "availableDates": [
+                "2025-08-15",
+                "2025-08-18",
+                "2025-08-22",
+                "2025-08-25"
+            ],
+            "distance": "130km",
+            "duration": "2.2 hours"
+        },
+        {
+            "id": 10,
+            "destination": "Takoradi",
+            "region": "Western Region",
+            "sprinterBus": 167,
+            "vipBus": 200,
+            "vipAvailable": true,
+            "category": "regional",
+            "availableDates": [
+                "2025-08-16",
+                "2025-08-20",
+                "2025-08-23",
+                "2025-08-27",
+                "2025-08-31"
+            ],
+            "distance": "280km",
+            "duration": "4.5 hours"
+        },
+        {
+            "id": 11,
+            "destination": "Ho",
+            "region": "Volta Region",
+            "sprinterBus": 124,
+            "vipBus": null,
+            "availableDates": [
+                "2025-08-15",
+                "2025-08-18",
+                "2025-08-22",
+                "2025-08-25"
+            ],
+            "vipAvailable": false,
+            "category": "regional",
+            "distance": "180km",
+            "duration": "3.2 hours"
+        },
+        {
+            "id": 12,
+            "destination": "Sunyani",
+            "region": "Bono Region",
+            "sprinterBus": 134,
+            "availableDates": [
+                "2025-08-15",
+                "2025-08-18",
+                "2025-08-22",
+                "2025-08-25"
+            ],
+            "vipBus": 170,
+            "vipAvailable": true,
+            "category": "regional",
+            "distance": "240km",
+            "duration": "4 hours"
+        }
+    ],
+    "busTypes": {
+        "sprinter": {
+            "name": "Sprinter Bus",
+            "features": [
+                "Air Conditioning",
+                "Comfortable Seating",
+                "USB Charging Ports"
+            ],
+            "description": "Standard comfortable transport for all destinations"
+        },
+        "vip": {
+            "name": "VIP Bus",
+            "features": [
+                "Premium Seating",
+                "Extra Legroom",
+                "Priority Boarding",
+                "Complimentary Water",
+                "Wi-Fi"
+            ],
+            "description": "Premium service with enhanced comfort and amenities"
+        }
     },
-    {
-      "id": 2,
-      "destination": "Tema",
-      "region": "Greater Accra",
-      "sprinterBus": 91,
-      "vipBus": null,
-      "vipAvailable": false,
-      "category": "urban",
-      "distance": "150km",
-      "duration": "2.5 hours"
-    },
-    {
-      "id": 3,
-      "destination": "Ashaiman",
-      "region": "Greater Accra",
-      "sprinterBus": 91,
-      "vipBus": null,
-      "vipAvailable": false,
-      "category": "urban",
-      "distance": "150km",
-      "duration": "2.5 hours"
-    },
-    {
-      "id": 4,
-      "destination": "Madina/Adenta",
-      "region": "Greater Accra",
-      "sprinterBus": 86,
-      "vipBus": null,
-      "vipAvailable": false,
-      "category": "urban",
-      "distance": "140km",
-      "duration": "2.3 hours"
-    },
-    {
-      "id": 5,
-      "destination": "Kaneshie/Circle",
-      "region": "Greater Accra",
-      "sprinterBus": 77,
-      "vipBus": 117,
-      "vipAvailable": true,
-      "category": "urban",
-      "distance": "120km",
-      "duration": "2 hours"
-    },
-    {
-      "id": 6,
-      "destination": "Kasoa",
-      "region": "Central Region",
-      "sprinterBus": 72,
-      "vipBus": null,
-      "vipAvailable": false,
-      "category": "regional",
-      "distance": "100km",
-      "duration": "1.5 hours"
-    },
-    {
-      "id": 7,
-      "destination": "Koforidua",
-      "region": "Eastern Region",
-      "sprinterBus": 152,
-      "vipBus": null,
-      "vipAvailable": false,
-      "category": "regional",
-      "distance": "220km",
-      "duration": "4 hours"
-    },
-    {
-      "id": 8,
-      "destination": "Akim Oda",
-      "region": "Eastern Region",
-      "sprinterBus": 86,
-      "vipBus": null,
-      "vipAvailable": false,
-      "category": "regional",
-      "distance": "130km",
-      "duration": "2.2 hours"
-    },
-    {
-      "id": 9,
-      "destination": "Pokuase/Amasaman",
-      "region": "Greater Accra",
-      "sprinterBus": 81,
-      "vipBus": null,
-      "vipAvailable": false,
-      "category": "urban",
-      "distance": "130km",
-      "duration": "2.2 hours"
-    },
-    {
-      "id": 10,
-      "destination": "Takoradi",
-      "region": "Western Region",
-      "sprinterBus": 167,
-      "vipBus": 200,
-      "vipAvailable": true,
-      "category": "regional",
-      "distance": "280km",
-      "duration": "4.5 hours"
-    },
-    {
-      "id": 11,
-      "destination": "Ho",
-      "region": "Volta Region",
-      "sprinterBus": 124,
-      "vipBus": null,
-      "vipAvailable": false,
-      "category": "regional",
-      "distance": "180km",
-      "duration": "3.2 hours"
-    },
-    {
-      "id": 12,
-      "destination": "Sunyani",
-      "region": "Bono Region",
-      "sprinterBus": 134,
-      "vipBus": 170,
-      "vipAvailable": true,
-      "category": "regional",
-      "distance": "240km",
-      "duration": "4 hours"
-    }
-  ],
-  "busTypes": {
-    "sprinter": {
-      "name": "Sprinter Bus",
-      "features": ["Air Conditioning", "Comfortable Seating", "USB Charging Ports"],
-      "description": "Standard comfortable transport for all destinations"
-    },
-    "vip": {
-      "name": "VIP Bus",
-      "features": ["Premium Seating", "Extra Legroom", "Priority Boarding", "Complimentary Water", "Wi-Fi"],
-      "description": "Premium service with enhanced comfort and amenities"
-    }
-  },
-  "regions": [
-    "Greater Accra",
-    "Ashanti Region",
-    "Central Region",
-    "Eastern Region",
-    "Western Region",
-    "Volta Region",
-    "Bono Region"
-  ],
-  "categories": [
-    {
-      "id": "urban",
-      "name": "Urban Routes",
-      "description": "Routes within urban areas and city centers"
-    },
-    {
-      "id": "regional",
-      "name": "Regional Routes", 
-      "description": "Inter-regional and long-distance routes"
-    }
-  ]
+    "regions": [
+        "Greater Accra",
+        "Ashanti Region",
+        "Central Region",
+        "Eastern Region",
+        "Western Region",
+        "Volta Region",
+        "Bono Region"
+    ],
+    "categories": [
+        {
+            "id": "urban",
+            "name": "Urban Routes",
+            "description": "Routes within urban areas and city centers"
+        },
+        {
+            "id": "regional",
+            "name": "Regional Routes",
+            "description": "Inter-regional and long-distance routes"
+        }
+    ]
 }
