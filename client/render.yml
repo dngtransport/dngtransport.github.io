@@ -1,14 +1,8 @@
-services:
-  - type: web
-    name: client-side
-    env: node
+staticSites:
+  - name: dng-client
     plan: free
-    build:
-      cwd: .
-      buildCommand: npm ci && npm run build
-      staticPublishPath: dist
+    buildCommand: npm ci && npm run build
+    publishPath: dist
     envVars:
       - key: NODE_VERSION
-        value: 22.16.0
-
-
+        value: 20.15.1
