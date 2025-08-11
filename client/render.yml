@@ -1,12 +1,14 @@
 services:
   - type: web
-    name: dng-client
+    name: client-side
     env: node
-    plan: free  # Or upgrade if needed
+    plan: free
     build:
       cwd: .
       buildCommand: npm ci && npm run build
-    startCommand: npm run preview
+      staticPublishPath: dist
     envVars:
       - key: NODE_VERSION
         value: 22.16.0
+
+
