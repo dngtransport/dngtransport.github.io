@@ -1,8 +1,0 @@
-staticSites:
-  - name: dng-client
-    plan: free
-    buildCommand: npm ci && npm run build
-    publishPath: dist
-    envVars:
-      - key: NODE_VERSION
-        value: 20.15.1
