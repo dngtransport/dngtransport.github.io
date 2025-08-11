@@ -38,13 +38,26 @@
     }
   </script>
   <style>
+    /* Touch-friendly adjustments for mobile */
+    .touch-manipulation {
+      touch-action: manipulation;
+    }
+
     .form-input {
       transition: all 0.2s ease;
+      min-height: 44px; /* iOS minimum touch target */
     }
 
     .form-input:focus {
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    }
+
+    /* Enhanced mobile input styling */
+    @media (max-width: 640px) {
+      .form-input {
+        font-size: 16px; /* Prevents zoom on iOS */
+      }
     }
 
     .step {
@@ -103,6 +116,13 @@
         transform: translateX(0);
       }
     }
+
+    /* Mobile-specific improvements */
+    @media (max-width: 640px) {
+      .step-indicator .step-item {
+        min-width: 48px; /* Better touch targets */
+      }
+    }
   </style>
 </head>
 
@@ -134,20 +154,20 @@
         </div>
 
         <!-- Mobile Menu Button -->
-        <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+        <button id="mobileMenuBtn" class="md:hidden p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors touch-manipulation">
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
       </div>
 
       <!-- Mobile Menu -->
       <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
-        <div class="px-4 py-4 space-y-2">
+        <div class="px-4 py-4 space-y-1">
           <a href="index.html"
-            class="block py-2 text-gray-600 font-medium hover:text-gray-900 transition-colors">Home</a>
+            class="block py-3 text-gray-600 font-medium hover:text-gray-900 hover:bg-gray-50 rounded-lg px-3 transition-colors touch-manipulation">Home</a>
           <a href="pricing.html"
-            class="block py-2 text-gray-600 font-medium hover:text-gray-900 transition-colors">Pricing</a>
+            class="block py-3 text-gray-600 font-medium hover:text-gray-900 hover:bg-gray-50 rounded-lg px-3 transition-colors touch-manipulation">Pricing</a>
           <a href="tel:0598106751"
-            class="block py-2 text-blue-600 font-medium hover:text-blue-700 transition-colors">Contact</a>
+            class="block py-3 text-blue-600 font-medium hover:text-blue-700 hover:bg-blue-50 rounded-lg px-3 transition-colors touch-manipulation">Contact</a>
         </div>
       </div>
     </div>
@@ -157,51 +177,55 @@
   <main class="pt-8 pb-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
-      <div class="text-center mb-8">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Book Your Trip</h1>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">Follow the simple steps below to secure your seat with DNG
+      <div class="text-center mb-6 sm:mb-8">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">Book Your Trip</h1>
+        <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">Follow the simple steps below to secure your seat with DNG
           Transport.</p>
       </div>
 
       <!-- Step Indicator -->
-      <div class="mb-12">
+      <div class="mb-8 sm:mb-12">
         <div class="step-indicator flex items-center justify-between max-w-3xl mx-auto px-4">
           <div class="step-progress" id="stepProgress" style="width: 0%"></div>
 
           <div class="step-item flex flex-col items-center" data-step="1">
             <div
-              class="w-12 h-12 rounded-full border-2 border-brand-600 bg-brand-600 text-white flex items-center justify-center text-sm font-bold transition-all duration-300"
+              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-brand-600 bg-brand-600 text-white flex items-center justify-center text-sm font-bold transition-all duration-300 touch-manipulation"
               id="step1Indicator">
               1
             </div>
-            <span class="text-sm text-gray-600 mt-2 hidden sm:block font-medium">Travel Details</span>
+            <span class="text-xs sm:text-sm text-gray-600 mt-2 hidden sm:block font-medium">Travel Details</span>
+            <span class="text-xs text-gray-600 mt-1 sm:hidden font-medium">Travel</span>
           </div>
 
           <div class="step-item flex flex-col items-center" data-step="2">
             <div
-              class="w-12 h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-sm font-bold transition-all duration-300"
+              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-sm font-bold transition-all duration-300 touch-manipulation"
               id="step2Indicator">
               2
             </div>
-            <span class="text-sm text-gray-600 mt-2 hidden sm:block font-medium">Personal Info</span>
+            <span class="text-xs sm:text-sm text-gray-600 mt-2 hidden sm:block font-medium">Personal Info</span>
+            <span class="text-xs text-gray-600 mt-1 sm:hidden font-medium">Personal</span>
           </div>
 
           <div class="step-item flex flex-col items-center" data-step="3">
             <div
-              class="w-12 h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-sm font-bold transition-all duration-300"
+              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-sm font-bold transition-all duration-300 touch-manipulation"
               id="step3Indicator">
               3
             </div>
-            <span class="text-sm text-gray-600 mt-2 hidden sm:block font-medium">Emergency Contact</span>
+            <span class="text-xs sm:text-sm text-gray-600 mt-2 hidden sm:block font-medium">Emergency Contact</span>
+            <span class="text-xs text-gray-600 mt-1 sm:hidden font-medium">Emergency</span>
           </div>
 
           <div class="step-item flex flex-col items-center" data-step="4">
             <div
-              class="w-12 h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-sm font-bold transition-all duration-300"
+              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-sm font-bold transition-all duration-300 touch-manipulation"
               id="step4Indicator">
               4
             </div>
-            <span class="text-sm text-gray-600 mt-2 hidden sm:block font-medium">Review & Submit</span>
+            <span class="text-xs sm:text-sm text-gray-600 mt-2 hidden sm:block font-medium">Review & Submit</span>
+            <span class="text-xs text-gray-600 mt-1 sm:hidden font-medium">Review</span>
           </div>
         </div>
       </div>
@@ -209,13 +233,13 @@
       <!-- Booking Form -->
       <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <!-- Form Header -->
-        <div class="bg-gradient-to-r from-brand-600 to-brand-700 text-white px-8 py-6">
-          <h2 class="text-2xl font-bold mb-2" id="stepTitle">Travel Details</h2>
-          <p class="text-brand-100" id="stepDescription">Select your destination and travel preferences</p>
+        <div class="bg-gradient-to-r from-brand-600 to-brand-700 text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <h2 class="text-xl sm:text-2xl font-bold mb-2" id="stepTitle">Travel Details</h2>
+          <p class="text-brand-100 text-sm sm:text-base" id="stepDescription">Select your destination and travel preferences</p>
         </div>
 
         <!-- Form Content -->
-        <form id="bookingForm" class="p-8">
+        <form id="bookingForm" class="p-4 sm:p-6 lg:p-8">
           <!-- Success Message (Hidden by default) -->
           <div id="successMessage" class="hidden bg-green-50 border border-green-200 rounded-xl p-6 mb-6">
             <div class="flex items-center space-x-3">
@@ -253,7 +277,7 @@
                     Where are you going? *
                   </label>
                   <select id="destination" name="destination" required
-                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none bg-white text-lg">
+                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none bg-white text-base sm:text-lg touch-manipulation">
                     <option value="">Select your destination</option>
                     <!-- Options will be dynamically loaded from pricing.json -->
                   </select>
@@ -267,7 +291,7 @@
                     When do you want to travel? *
                   </label>
                   <input type="date" id="travelDate" name="travelDate" required disabled
-                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none text-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none text-base sm:text-lg disabled:bg-gray-100 disabled:cursor-not-allowed touch-manipulation"
                     placeholder="Select destination first">
                   <div class="text-red-500 text-sm mt-2 hidden" id="travelDateError">Please select your travel date
                   </div>
@@ -355,7 +379,7 @@
                     What's your full name? *
                   </label>
                   <input type="text" id="fullName" name="fullName" required
-                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none text-lg"
+                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none text-base sm:text-lg touch-manipulation"
                     placeholder="Enter your full name">
                   <div class="text-red-500 text-sm mt-2 hidden" id="fullNameError">Please enter your full name</div>
                 </div>
@@ -366,7 +390,7 @@
                     What's your phone number? *
                   </label>
                   <input type="tel" id="phoneNumber" name="phoneNumber" required
-                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none text-lg"
+                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none text-base sm:text-lg touch-manipulation"
                     placeholder="0XX XXX XXXX" pattern="[0-9]{10}">
                   <div class="text-red-500 text-sm mt-2 hidden" id="phoneNumberError">Please enter a valid 10-digit
                     phone number</div>
@@ -403,14 +427,14 @@
                     <label for="emergencyName" class="block text-sm font-semibold text-amber-800 mb-3">Emergency Contact
                       Name</label>
                     <input type="text" id="emergencyName" name="emergencyName"
-                      class="w-full px-4 py-3 border border-amber-300 rounded-lg focus:ring-2 focus:ring-brand-400 focus:border-transparent outline-none"
+                      class="w-full px-4 py-4 border border-amber-300 rounded-lg focus:ring-2 focus:ring-brand-400 focus:border-transparent outline-none text-base sm:text-lg touch-manipulation"
                       placeholder="Full name">
                   </div>
                   <div>
                     <label for="emergencyPhone" class="block text-sm font-semibold text-amber-800 mb-3">Emergency
                       Contact Phone</label>
                     <input type="tel" id="emergencyPhone" name="emergencyPhone"
-                      class="w-full px-4 py-3 border border-amber-300 rounded-lg focus:ring-2 focus:ring-brand-400 focus:border-transparent outline-none"
+                      class="w-full px-4 py-4 border border-amber-300 rounded-lg focus:ring-2 focus:ring-brand-400 focus:border-transparent outline-none text-base sm:text-lg touch-manipulation"
                       placeholder="0XX XXX XXXX">
                   </div>
                 </div>
@@ -501,21 +525,21 @@
           </div>
 
           <!-- Navigation Buttons -->
-          <div class="flex justify-between items-center mt-12 pt-8 border-t border-gray-200">
+          <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mt-12 pt-8 border-t border-gray-200 space-y-4 sm:space-y-0">
             <button type="button" id="prevBtn"
-              class="hidden px-8 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors flex items-center space-x-2">
+              class="hidden px-6 sm:px-8 py-3 sm:py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors flex items-center justify-center space-x-2 touch-manipulation">
               <i data-lucide="arrow-left" class="w-5 h-5"></i>
               <span>Previous</span>
             </button>
 
             <button type="button" id="nextBtn"
-              class="ml-auto px-8 py-4 bg-brand-600 text-white rounded-xl font-semibold hover:bg-brand-700 transition-colors flex items-center space-x-2 text-lg">
+              class="ml-auto px-6 sm:px-8 py-4 bg-brand-600 text-white rounded-xl font-semibold hover:bg-brand-700 transition-colors flex items-center justify-center space-x-2 text-lg touch-manipulation">
               <span>Continue</span>
               <i data-lucide="arrow-right" class="w-5 h-5"></i>
             </button>
 
             <button type="submit" id="submitBtn"
-              class="hidden ml-auto px-8 py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors flex items-center space-x-2 text-lg">
+              class="hidden ml-auto px-6 sm:px-8 py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 text-lg touch-manipulation">
               <i data-lucide="send" class="w-5 h-5"></i>
               <span>Submit Booking</span>
             </button>
@@ -532,27 +556,27 @@
       </div>
 
       <!-- Contact Information -->
-      <div class="mt-12 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div class="mt-8 sm:mt-12 bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
         <div class="text-center">
-          <h3 class="text-xl font-bold text-gray-900 mb-4">Need Help? Contact Us</h3>
+          <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-4">Need Help? Contact Us</h3>
           <div
-            class="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-8 text-gray-600">
+            class="flex flex-col space-y-3 text-gray-600">
             <a href="tel:0598106751"
-              class="flex items-center space-x-2 hover:text-brand-600 transition-colors font-medium">
+              class="flex items-center justify-center space-x-3 hover:text-brand-600 transition-colors font-medium py-2 touch-manipulation">
               <div class="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
                 <i data-lucide="phone" class="w-4 h-4 text-brand-600"></i>
               </div>
               <span>0598106751</span>
             </a>
             <a href="tel:0595223640"
-              class="flex items-center space-x-2 hover:text-brand-600 transition-colors font-medium">
+              class="flex items-center justify-center space-x-3 hover:text-brand-600 transition-colors font-medium py-2 touch-manipulation">
               <div class="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
                 <i data-lucide="phone" class="w-4 h-4 text-brand-600"></i>
               </div>
               <span>0595223640</span>
             </a>
             <a href="tel:0246962314"
-              class="flex items-center space-x-2 hover:text-brand-600 transition-colors font-medium">
+              class="flex items-center justify-center space-x-3 hover:text-brand-600 transition-colors font-medium py-2 touch-manipulation">
               <div class="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
                 <i data-lucide="phone" class="w-4 h-4 text-brand-600"></i>
               </div>
