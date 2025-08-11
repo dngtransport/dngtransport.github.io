@@ -10,11 +10,9 @@
             "category": "regional",
             "distance": "200km",
             "availableDates": [
-                "2025-08-15",
-                "2025-08-18",
-                "2025-08-22",
-                "2025-08-25",
-                "2025-08-29"
+                "2025-08-16",
+                "2025-08-17",
+                
             ],
             "duration": "3.5 hours"
         },
@@ -29,10 +27,7 @@
             "distance": "150km",
             "availableDates": [
                 "2025-08-16",
-                "2025-08-19",
-                "2025-08-23",
-                "2025-08-26",
-                "2025-08-30"
+                
             ],
             "duration": "2.5 hours"
         },
@@ -43,10 +38,8 @@
             "sprinterBus": 91,
             "vipBus": null,
             "availableDates": [
-                "2025-08-15",
-                "2025-08-18",
-                "2025-08-22",
-                "2025-08-25"
+                "2025-08-16",
+                
             ],
             "vipAvailable": false,
             "category": "urban",
@@ -61,10 +54,8 @@
             "vipBus": null,
             "vipAvailable": false,
             "availableDates": [
-                "2025-08-15",
-                "2025-08-18",
-                "2025-08-22",
-                "2025-08-25"
+                "2025-08-16",
+               
             ],
             "category": "urban",
             "distance": "140km",
@@ -77,11 +68,9 @@
             "sprinterBus": 77,
             "vipBus": 117,
             "availableDates": [
-                "2025-08-14",
-                "2025-08-17",
-                "2025-08-21",
-                "2025-08-24",
-                "2025-08-28"
+                "2025-08-16",
+                "2025-08-17"
+                
             ],
             "vipAvailable": true,
             "category": "urban",
@@ -95,10 +84,9 @@
             "sprinterBus": 72,
             "vipBus": null,
             "availableDates": [
-                "2025-08-15",
-                "2025-08-18",
-                "2025-08-22",
-                "2025-08-25"
+                "2025-08-16",
+                "2025-08-17"
+                
             ],
             "vipAvailable": false,
             "category": "regional",
@@ -114,11 +102,8 @@
             "vipAvailable": false,
             "category": "regional",
             "availableDates": [
-                "2025-08-15",
-                "2025-08-18",
-                "2025-08-22",
-                "2025-08-25"
-            ],
+                "2025-08-16",
+                
             "distance": "220km",
             "duration": "4 hours"
         },
@@ -132,10 +117,8 @@
             "category": "regional",
             "distance": "130km",
             "availableDates": [
-                "2025-08-15",
-                "2025-08-18",
-                "2025-08-22",
-                "2025-08-25"
+                "2025-08-16",
+               
             ],
             "duration": "2.2 hours"
         },
@@ -148,74 +131,19 @@
             "vipAvailable": false,
             "category": "urban",
             "availableDates": [
-                "2025-08-15",
-                "2025-08-18",
-                "2025-08-22",
-                "2025-08-25"
+                "2025-08-16",
+               
             ],
             "distance": "130km",
             "duration": "2.2 hours"
         },
-        {
-            "id": 10,
-            "destination": "Takoradi",
-            "region": "Western Region",
-            "sprinterBus": 167,
-            "vipBus": 200,
-            "vipAvailable": true,
-            "category": "regional",
-            "availableDates": [
-                "2025-08-16",
-                "2025-08-20",
-                "2025-08-23",
-                "2025-08-27",
-                "2025-08-31"
-            ],
-            "distance": "280km",
-            "duration": "4.5 hours"
-        },
-        {
-            "id": 11,
-            "destination": "Ho",
-            "region": "Volta Region",
-            "sprinterBus": 124,
-            "vipBus": null,
-            "availableDates": [
-                "2025-08-15",
-                "2025-08-18",
-                "2025-08-22",
-                "2025-08-25"
-            ],
-            "vipAvailable": false,
-            "category": "regional",
-            "distance": "180km",
-            "duration": "3.2 hours"
-        },
-        {
-            "id": 12,
-            "destination": "Sunyani",
-            "region": "Bono Region",
-            "sprinterBus": 134,
-            "availableDates": [
-                "2025-08-15",
-                "2025-08-18",
-                "2025-08-22",
-                "2025-08-25"
-            ],
-            "vipBus": 170,
-            "vipAvailable": true,
-            "category": "regional",
-            "distance": "240km",
-            "duration": "4 hours"
-        }
     ],
     "busTypes": {
         "sprinter": {
             "name": "Sprinter Bus",
             "features": [
-                "Air Conditioning",
+                "Carriers",
                 "Comfortable Seating",
-                "USB Charging Ports"
             ],
             "description": "Standard comfortable transport for all destinations"
         },
@@ -224,9 +152,7 @@
             "features": [
                 "Premium Seating",
                 "Extra Legroom",
-                "Priority Boarding",
-                "Complimentary Water",
-                "Wi-Fi"
+                "Priority Boarding"
             ],
             "description": "Premium service with enhanced comfort and amenities"
         }
@@ -234,11 +160,8 @@
     "regions": [
         "Greater Accra",
         "Ashanti Region",
-        "Central Region",
-        "Eastern Region",
-        "Western Region",
-        "Volta Region",
-        "Bono Region"
+        "Eastern Region"
+        
     ],
     "categories": [
         {
