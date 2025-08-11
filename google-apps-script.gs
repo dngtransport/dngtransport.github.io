@@ -152,7 +152,7 @@ function addDropdownValidation(sheet) {
   const statusRule = SpreadsheetApp.newDataValidation()
     .requireValueInList([
       'Confirmed',
-      'Pending', 
+      'Pending Confirmation', 
       'Completed',
       'Cancelled'
     ], true)
@@ -165,7 +165,7 @@ function addDropdownValidation(sheet) {
   const paymentRule = SpreadsheetApp.newDataValidation()
     .requireValueInList([
       'Paid',
-      'Pending',
+      'UnPaid',
       'Partial',
       'Refunded'
     ], true)
@@ -200,8 +200,8 @@ function saveBookingToSheet(booking) {
       booking.specialRequests || '',
       booking.emergencyName || '',
       booking.emergencyPhone || '',
-      'Pending',
-      'Pending'
+      'Pending Confirmation',
+      'UnPaid'
     ];
 
     // Add the booking to the sheet

@@ -8,6 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="icon" type="image/jpeg" href="DNG logo.jpg">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
@@ -45,7 +46,8 @@
 
     .form-input {
       transition: all 0.2s ease;
-      min-height: 44px; /* iOS minimum touch target */
+      min-height: 44px;
+      /* iOS minimum touch target */
     }
 
     .form-input:focus {
@@ -56,7 +58,8 @@
     /* Enhanced mobile input styling */
     @media (max-width: 640px) {
       .form-input {
-        font-size: 16px; /* Prevents zoom on iOS */
+        font-size: 16px;
+        /* Prevents zoom on iOS */
       }
     }
 
@@ -120,7 +123,8 @@
     /* Mobile-specific improvements */
     @media (max-width: 640px) {
       .step-indicator .step-item {
-        min-width: 48px; /* Better touch targets */
+        min-width: 48px;
+        /* Better touch targets */
       }
     }
   </style>
@@ -154,7 +158,8 @@
         </div>
 
         <!-- Mobile Menu Button -->
-        <button id="mobileMenuBtn" class="md:hidden p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors touch-manipulation">
+        <button id="mobileMenuBtn"
+          class="md:hidden p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors touch-manipulation">
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
       </div>
@@ -179,7 +184,8 @@
       <!-- Header -->
       <div class="text-center mb-6 sm:mb-8">
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">Book Your Trip</h1>
-        <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">Follow the simple steps below to secure your seat with DNG
+        <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">Follow the simple steps below to secure your
+          seat with DNG
           Transport.</p>
       </div>
 
@@ -235,7 +241,8 @@
         <!-- Form Header -->
         <div class="bg-gradient-to-r from-brand-600 to-brand-700 text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <h2 class="text-xl sm:text-2xl font-bold mb-2" id="stepTitle">Travel Details</h2>
-          <p class="text-brand-100 text-sm sm:text-base" id="stepDescription">Select your destination and travel preferences</p>
+          <p class="text-brand-100 text-sm sm:text-base" id="stepDescription">Select your destination and travel
+            preferences</p>
         </div>
 
         <!-- Form Content -->
@@ -295,7 +302,8 @@
                     placeholder="Select destination first">
                   <div class="text-red-500 text-sm mt-2 hidden" id="travelDateError">Please select your travel date
                   </div>
-                  <div class="text-gray-500 text-sm mt-2" id="travelDateHint">Please select a destination first to see available travel dates</div>
+                  <div class="text-gray-500 text-sm mt-2" id="travelDateHint">Please select a destination first to see
+                    available travel dates</div>
                 </div>
               </div>
 
@@ -525,7 +533,8 @@
           </div>
 
           <!-- Navigation Buttons -->
-          <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mt-12 pt-8 border-t border-gray-200 space-y-4 sm:space-y-0">
+          <div
+            class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mt-12 pt-8 border-t border-gray-200 space-y-4 sm:space-y-0">
             <button type="button" id="prevBtn"
               class="hidden px-6 sm:px-8 py-3 sm:py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors flex items-center justify-center space-x-2 touch-manipulation">
               <i data-lucide="arrow-left" class="w-5 h-5"></i>
@@ -559,8 +568,7 @@
       <div class="mt-8 sm:mt-12 bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
         <div class="text-center">
           <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-4">Need Help? Contact Us</h3>
-          <div
-            class="flex flex-col space-y-3 text-gray-600">
+          <div class="flex flex-col space-y-3 text-gray-600">
             <a href="tel:0598106751"
               class="flex items-center justify-center space-x-3 hover:text-brand-600 transition-colors font-medium py-2 touch-manipulation">
               <div class="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
@@ -957,26 +965,26 @@
       const selectedDestination = destinationSelect.value;
       const travelDateInput = document.getElementById('travelDate');
       const travelDateHint = document.getElementById('travelDateHint');
-      
+
       if (selectedDestination && availableDatesMap[selectedDestination]) {
         const availableDates = availableDatesMap[selectedDestination];
-        
+
         // Enable the date input and hide hint
         travelDateInput.disabled = false;
         if (travelDateHint) travelDateHint.style.display = 'none';
-        
+
         // Clear current value if it's not in available dates
         const currentValue = travelDateInput.value;
         if (currentValue && !availableDates.includes(currentValue)) {
           travelDateInput.value = '';
         }
-        
+
         // Set min and max dates based on available dates
         if (availableDates.length > 0) {
           // Filter out past dates
           const today = new Date().toISOString().split('T')[0];
           const futureDates = availableDates.filter(date => date >= today);
-          
+
           if (futureDates.length > 0) {
             const sortedDates = [...futureDates].sort();
             travelDateInput.min = sortedDates[0];
@@ -988,13 +996,13 @@
             showAvailableDatesInfo(availableDates);
             return;
           }
-          
+
           // Add custom validation for available dates
-          const validateDate = function() {
+          const validateDate = function () {
             const selectedDate = travelDateInput.value;
             const dateError = document.getElementById('travelDateError');
             const today = new Date().toISOString().split('T')[0];
-            
+
             if (selectedDate) {
               // Check if date is in the past
               if (selectedDate < today) {
@@ -1003,39 +1011,39 @@
                 dateError.classList.remove('hidden');
                 return false;
               }
-              
+
               // Check if date is in available dates
               if (!availableDates.includes(selectedDate)) {
                 travelDateInput.setCustomValidity('Please select from available dates');
                 dateError.textContent = `Available dates: ${availableDates.map(date => {
                   const dateObj = new Date(date);
-                  return dateObj.toLocaleDateString('en-GB', { 
-                    weekday: 'short', 
-                    day: 'numeric', 
-                    month: 'short' 
+                  return dateObj.toLocaleDateString('en-GB', {
+                    weekday: 'short',
+                    day: 'numeric',
+                    month: 'short'
                   });
                 }).join(', ')}`;
                 dateError.classList.remove('hidden');
                 return false;
               }
-              
+
               // Date is valid
               travelDateInput.setCustomValidity('');
               dateError.classList.add('hidden');
               return true;
             }
-            
+
             return false;
           };
-          
+
           // Remove existing event listeners to prevent duplicates
           travelDateInput.removeEventListener('input', validateDate);
           travelDateInput.removeEventListener('change', validateDate);
-          
+
           // Add validation event listeners
           travelDateInput.addEventListener('input', validateDate);
           travelDateInput.addEventListener('change', validateDate);
-          
+
           // Show available dates info
           showAvailableDatesInfo(availableDates);
         }
@@ -1048,7 +1056,7 @@
         hideAvailableDatesInfo();
       }
     }
-    
+
     // Show available dates information
     function showAvailableDatesInfo(availableDates) {
       // Remove existing info if any
@@ -1056,11 +1064,11 @@
       if (existingInfo) {
         existingInfo.remove();
       }
-      
+
       // Filter out past dates
       const today = new Date().toISOString().split('T')[0];
       const futureDates = availableDates.filter(date => date >= today);
-      
+
       if (futureDates.length === 0) {
         // Show message that no dates are available
         const travelDateInput = document.getElementById('travelDate');
@@ -1076,7 +1084,7 @@
         lucide.createIcons();
         return;
       }
-      
+
       // Create and insert available dates info
       const travelDateInput = document.getElementById('travelDate');
       const infoDiv = document.createElement('div');
@@ -1088,25 +1096,25 @@
             <p class="text-sm font-medium text-blue-800 mb-1">Available travel dates:</p>
             <div class="flex flex-wrap gap-2">
               ${futureDates.map(date => {
-                const dateObj = new Date(date);
-                const formattedDate = dateObj.toLocaleDateString('en-GB', { 
-                  weekday: 'short', 
-                  day: 'numeric', 
-                  month: 'short' 
-                });
-                return `<span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full cursor-pointer hover:bg-blue-200 transition-colors" onclick="document.getElementById('travelDate').value='${date}'; document.getElementById('travelDate').dispatchEvent(new Event('change'))">${formattedDate}</span>`;
-              }).join('')}
+        const dateObj = new Date(date);
+        const formattedDate = dateObj.toLocaleDateString('en-GB', {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short'
+        });
+        return `<span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full cursor-pointer hover:bg-blue-200 transition-colors" onclick="document.getElementById('travelDate').value='${date}'; document.getElementById('travelDate').dispatchEvent(new Event('change'))">${formattedDate}</span>`;
+      }).join('')}
             </div>
           </div>
         </div>
       `;
-      
+
       travelDateInput.parentNode.appendChild(infoDiv);
-      
+
       // Re-initialize Lucide icons for the new icon
       lucide.createIcons();
     }
-    
+
     // Hide available dates information
     function hideAvailableDatesInfo() {
       const existingInfo = document.querySelector('.available-dates-info');
