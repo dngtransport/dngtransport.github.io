@@ -1,644 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DNG Transport | Premium Travel Solutions</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="icon" type="image/jpeg" href="DNG logo.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f0f7ff',
-              100: '#e0efff',
-              200: '#bae0ff',
-              300: '#7cc8ff',
-              400: '#36acff',
-              500: '#0c91f1',
-              600: '#0074ce',
-              700: '#005ca6',
-              800: '#004f89',
-              900: '#1e3c72',
-              950: '#162b56',
-            }
-          },
-          fontFamily: {
-            'sans': ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
-          },
-          animation: {
-            'bounce-gentle': 'bounceGentle 3s ease-in-out infinite',
-          },
-          keyframes: {
-            bounceGentle: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-5px)' }
-            }
-          }
-        }
-      }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DNG Transport - Home</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Added navigation button */
+    .home-header {
+      position: relative;
     }
-  </script>
-</head>
-
-<body class="bg-white font-sans">
-  
-  <!-- Navigation -->
-  <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex items-center space-x-3">
-          <img src="DNG logo.jpg" alt="DNG Transport" class="h-10 w-10 rounded-lg object-cover">
-          <div>
-            <h1 class="text-xl font-bold text-gray-900">DNG Transport</h1>
-            <p class="text-sm text-gray-500">Safe & Reliable</p>
-          </div>
-        </div>
-        
-        <div class="hidden md:flex items-center space-x-8">
-          <a href="#features" class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
-            Services
-          </a>
-          <a href="#pricing" class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
-            Pricing
-          </a>
-          <a href="pricing.html" class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
-            All Destinations
-          </a>
-          <a href="#team" class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
-            Team
-          </a>
-          <a href="booking.html" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200">
-            Book Now
-          </a>
-        </div>
-        
-        <button class="md:hidden p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors touch-manipulation" onclick="toggleMobileMenu()">
-          <i data-lucide="menu" class="w-5 h-5"></i>
-        </button>
-      </div>
-    </div>
     
-    <!-- Mobile menu -->
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
-      <div class="px-4 py-4 space-y-1">
-        <a href="#features" class="block py-3 text-gray-600 font-medium hover:text-gray-900 hover:bg-gray-50 rounded-lg px-3 transition-colors touch-manipulation">Services</a>
-        <a href="#pricing" class="block py-3 text-gray-600 font-medium hover:text-gray-900 hover:bg-gray-50 rounded-lg px-3 transition-colors touch-manipulation">Pricing</a>
-        <a href="pricing.html" class="block py-3 text-gray-600 font-medium hover:text-gray-900 hover:bg-gray-50 rounded-lg px-3 transition-colors touch-manipulation">All Destinations</a>
-        <a href="#team" class="block py-3 text-gray-600 font-medium hover:text-gray-900 hover:bg-gray-50 rounded-lg px-3 transition-colors touch-manipulation">Team</a>
-        <a href="booking.html" class="block bg-blue-600 text-white px-4 py-3 rounded-lg font-medium text-center hover:bg-blue-700 transition-colors mt-4 touch-manipulation">
-          Book Now
-        </a>
+    .booking-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #1e3c72;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    
+    .booking-btn:hover {
+      background: #2a5298;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Site Header (top bar) -->
+  <header class="site-header home-header">
+    <a href="index.html" class="booking-btn">Booking Page</a>
+    <div class="container header-container">
+        <img src="DNG logo.jpg" alt="DNG Transport Logo" class="logo" />
+      <div class="header-text">
+        <h1>DNG Transport</h1>
+        <p>Affordable & Reliable Travel Across Ghana</p>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- Hero Section -->
-  <section class="bg-gray-50 py-12 sm:py-16 md:py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-        
-        <!-- Left Content -->
-        <div class="text-center lg:text-left order-2 lg:order-1">
-          <div class="inline-flex items-center space-x-2 bg-green-100 px-3 py-1 rounded-full mb-6 sm:mb-8">
-            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span class="text-sm font-medium text-green-700">Available 24/7</span>
-          </div>
-          
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
-            Safe & Reliable
-            <span class="text-blue-600">Transport</span>
-          </h1>
-          
-          <p class="text-base sm:text-lg text-gray-600 leading-relaxed mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0">
-            Professional transportation from UCC to destinations across Ghana. 
-            Book your journey with confidence and travel in comfort.
-          </p>
-          
-          <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-8 sm:mb-12">
-            <a href="booking.html" class="w-full sm:w-auto bg-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl">
-              <span>Book Your Trip</span>
-              <i data-lucide="arrow-right" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-            </a>
-            
-            <a href="#pricing" class="w-full sm:w-auto bg-white text-gray-700 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold border border-gray-300 hover:bg-gray-50 hover:border-gray-400 transform hover:scale-105 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg">
-              <i data-lucide="calculator" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-              <span>View Pricing</span>
-            </a>
-          </div>
-          
-          <!-- Stats -->
-          <div class="grid grid-cols-3 gap-4 sm:gap-8 max-w-sm mx-auto lg:mx-0">
-            <div class="text-center">
-              <div class="text-xl sm:text-2xl font-bold text-gray-900">500+</div>
-              <div class="text-xs sm:text-sm text-gray-600">Happy Travelers</div>
-            </div>
-            <div class="text-center">
-              <div class="text-xl sm:text-2xl font-bold text-gray-900">99%</div>
-              <div class="text-xs sm:text-sm text-gray-600">On Time</div>
-            </div>
-            <div class="text-center">
-              <div class="text-xl sm:text-2xl font-bold text-gray-900">4.9★</div>
-              <div class="text-xs sm:text-sm text-gray-600">Rating</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Right Content - Visual -->
-        <div class="relative order-1 lg:order-2 mb-8 lg:mb-0">
-          <div class="bg-white rounded-xl shadow-xl overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1662363512471-cb2abd28b0ce?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGdoYW5hJTIwYnVzfGVufDB8fDB8fHww" alt="DNG Transport Bus" class="w-full h-64 sm:h-80 lg:h-96 object-cover">
-          </div>
-          
-          <!-- Mobile-optimized floating cards -->
-          <div class="absolute -top-2 sm:-top-4 -left-2 sm:-left-4 bg-white rounded-lg sm:rounded-xl shadow-lg p-2 sm:p-4 border border-gray-100 backdrop-blur-sm bg-white/95">
-            <div class="flex items-center space-x-2 sm:space-x-3">
-              <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full animate-pulse"></div>
-              <span class="text-xs sm:text-sm font-semibold text-gray-800">Travel in Comfort</span>
-            </div>
-          </div>
-          
-          <div class="absolute -bottom-2 sm:-bottom-4 -right-2 sm:-right-4 bg-white rounded-lg sm:rounded-xl shadow-lg p-2 sm:p-4 border border-gray-100 backdrop-blur-sm bg-white/95">
-            <div class="text-center">
-              <div class="text-lg sm:text-xl font-bold text-blue-600">Affordable</div>
-              <div class="text-xs sm:text-sm text-gray-600 font-medium">Student-Friendly</div>
-            </div>
-          </div>
-          
-          <div class="absolute top-1/2 -left-3 sm:-left-5 transform -translate-y-1/2 bg-white rounded-lg sm:rounded-xl shadow-lg p-2 sm:p-3 border border-gray-100 backdrop-blur-sm bg-white/95">
-            <div class="flex items-center space-x-1 sm:space-x-2">
-              <i data-lucide="shield-check" class="w-4 h-4 sm:w-5 sm:h-5 text-green-500"></i>
-              <span class="text-xs sm:text-sm font-semibold text-gray-800">Safe Journey</span>
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- Business Description -->
+  <section class="description" data-aos="fade-up">
+    <div class="container">
+      <h2>Welcome to DNG Transport</h2>
+      <p>
+        DNG Transport is a hassle-free, student-focused transportation service
+        dedicated to providing safe, reliable, and affordable travel for
+        University of Cape Coast (UCC) students to major destinations across
+        Ghana, including Accra, Ashanti Region, and Eastern Region.
+      </p>
+      <p>
+        We provide fast, reliable, and affordable transport services to all our
+        customers. Below are the various destinations and prices:
+      </p>
     </div>
   </section>
 
-  <!-- Features Section -->
-  <section id="features" class="py-12 sm:py-16 md:py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Section Header -->
-      <div class="text-center mb-12 sm:mb-16">
-        <div class="inline-flex items-center space-x-2 bg-blue-100 px-3 py-1 rounded-full mb-4">
-          <i data-lucide="star" class="w-4 h-4 text-blue-600"></i>
-          <span class="text-sm font-medium text-blue-700">Why Choose Us</span>
-        </div>
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-          Safe & Professional Transport
-        </h2>
-        <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-          We provide reliable transportation services designed for university students.
-        </p>
-      </div>
-      
-      <!-- Features Grid - Mobile First -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-        
-        <div class="text-center p-4 sm:p-6 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4">
-            <i data-lucide="shield-check" class="w-5 h-5 sm:w-6 sm:h-6 text-green-600"></i>
-          </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">Safe & Secure</h3>
-          <p class="text-sm sm:text-base text-gray-600">Professional drivers and GPS-tracked vehicles ensure your safety.</p>
-        </div>
-        
-        <div class="text-center p-4 sm:p-6 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4">
-            <i data-lucide="clock" class="w-5 h-5 sm:w-6 sm:h-6 text-blue-600"></i>
-          </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">Always On Time</h3>
-          <p class="text-sm sm:text-base text-gray-600">Punctual departures and arrivals with real-time tracking.</p>
-        </div>
-        
-        <div class="text-center p-4 sm:p-6 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4">
-            <i data-lucide="wallet" class="w-5 h-5 sm:w-6 sm:h-6 text-purple-600"></i>
-          </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">Student Rates</h3>
-          <p class="text-sm sm:text-base text-gray-600">Affordable pricing designed for students.</p>
-        </div>
-        
-        <div class="text-center p-4 sm:p-6 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4">
-            <i data-lucide="headphones" class="w-5 h-5 sm:w-6 sm:h-6 text-red-600"></i>
-          </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">24/7 Support</h3>
-          <p class="text-sm sm:text-base text-gray-600">Customer support via WhatsApp and phone.</p>
-        </div>
-        
-        <div class="text-center p-4 sm:p-6 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-indigo-100 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4">
-            <i data-lucide="smartphone" class="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600"></i>
-          </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">Easy Booking</h3>
-          <p class="text-sm sm:text-base text-gray-600">Simple online booking with instant confirmation.</p>
-        </div>
-        
-        <div class="text-center p-4 sm:p-6 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-100 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4">
-            <i data-lucide="star" class="w-5 h-5 sm:w-6 sm:h-6 text-yellow-600"></i>
-          </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">Comfortable</h3>
-          <p class="text-sm sm:text-base text-gray-600">Modern vehicles with AC and comfortable seating.</p>
-        </div>
-      </div>
+  <!-- Price Table -->
+  <section class="prices" data-aos="fade-up">
+    <div class="container">
+      <h2>Destinations and Prices</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Route</th>
+            <th>Sprinter Price (GHS)</th>
+            <th>VIP Price (GHS)</th>
+            <th>Book</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Kumasi</td>
+            <td>117</td>
+            <td>150</td>
+            <td>
+              <a href="index.html?destination=Kumasi&date=2025-08-16" class="book-link">Sat 16th</a>
+              <a href="index.html?destination=Kumasi&date=2025-08-17" class="book-link">Sun 17th</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Tema</td>
+            <td>91</td>
+            <td>-</td>
+            <td><a href="index.html?destination=Tema" class="book-link">Book Now</a></td>
+          </tr>
+          <tr>
+            <td>Ashaiman</td>
+            <td>91</td>
+            <td>-</td>
+            <td><a href="index.html?destination=Ashaiman" class="book-link">Book Now</a></td>
+          </tr>
+          <tr>
+            <td>Madina/Adenta</td>
+            <td>86</td>
+            <td>-</td>
+            <td><a href="index.html?destination=Madina/Adenta" class="book-link">Book Now</a></td>
+          </tr>
+          <tr>
+            <td>Kaneshie/Circle</td>
+            <td>77</td>
+            <td>117</td>
+            <td>
+              <a href="index.html?destination=Kaneshie/Circle&date=2025-08-16" class="book-link">Sat 16th</a>
+              <a href="index.html?destination=Kaneshie/Circle&date=2025-08-17" class="book-link">Sun 17th</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Kasoa</td>
+            <td>72</td>
+            <td>-</td>
+            <td><a href="index.html?destination=Kasoa" class="book-link">Book Now</a></td>
+          </tr>
+          <tr>
+            <td>Koforidua</td>
+            <td>152</td>
+            <td>-</td>
+            <td><a href="index.html?destination=Koforidua" class="book-link">Book Now</a></td>
+          </tr>
+          <tr>
+            <td>Akim Oda</td>
+            <td>86</td>
+            <td>-</td>
+            <td><a href="index.html?destination=Akim Oda" class="book-link">Book Now</a></td>
+          </tr>
+          <tr>
+            <td>Pokuase/Amasaman</td>
+            <td>81</td>
+            <td>-</td>
+            <td><a href="index.html?destination=Pokuase/Amasaman" class="book-link">Book Now</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">* VIP service available only for select routes and dates</p>
+      <style>
+        .book-link {
+          display: inline-block;
+          padding: 4px 8px;
+          background: #1e3c72;
+          color: white;
+          border-radius: 4px;
+          text-decoration: none;
+          font-size: 0.9rem;
+          margin: 2px;
+        }
+        .book-link:hover {
+          background: #2a5298;
+        }
+      </style>
     </div>
   </section>
 
-  <!-- Pricing Section -->
-  <section id="pricing" class="py-12 sm:py-16 md:py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Section Header -->
-      <div class="text-center mb-12 sm:mb-16">
-        <div class="inline-flex items-center space-x-2 bg-orange-100 px-3 py-1 rounded-full mb-4">
-          <i data-lucide="calculator" class="w-4 h-4 text-orange-600"></i>
-          <span class="text-sm font-medium text-orange-700">Transparent Pricing</span>
-        </div>
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-          Destinations & Pricing
-        </h2>
-        <p class="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-          Clear, upfront pricing with no hidden fees. Choose between standard and VIP options.
-        </p>
-      </div>
-      
-      <!-- Mobile-Optimized Pricing Table -->
-      <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        
-        <!-- Desktop Header (hidden on mobile) -->
-        <div class="hidden md:block bg-gray-900 px-4 sm:px-6 py-4">
-          <div class="grid grid-cols-4 gap-4 items-center text-white font-semibold text-sm sm:text-base">
-            <div>Destination</div>
-            <div class="text-center">Sprinter Bus</div>
-            <div class="text-center">VIP Bus</div>
-            <div class="text-center">Action</div>
-          </div>
-        </div>
-        
-        <!-- Mobile/Desktop Table Body -->
-        <div id="pricingTableBody" class="divide-y divide-gray-200">
-          <!-- Dynamic content will be loaded here -->
-        </div>
-        
-        <!-- Footer -->
-        <div class="bg-gray-100 px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200">
-          <div class="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
-            <div class="flex items-center space-x-2 text-xs sm:text-sm text-gray-600">
-              <i data-lucide="info" class="w-3 h-3 sm:w-4 sm:h-4"></i>
-              <span>VIP service includes premium seating and priority boarding</span>
-            </div>
-            <a href="pricing.html" class="text-blue-600 hover:text-blue-700 font-medium text-sm flex items-center space-x-1 bg-blue-50 px-3 py-1 rounded-full hover:bg-blue-100 transition-colors">
-              <span>View All Destinations</span>
-              <i data-lucide="external-link" class="w-3 h-3 sm:w-4 sm:h-4"></i>
-            </a>
-          </div>
-        </div>
-      </div>
+ <!-- Hero Section -->
+  <section class="hero" style="background: url('https://images.unsplash.com/photo-1662363512471-cb2abd28b0ce?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGdoYW5hJTIwYnVzfGVufDB8fDB8fHww') center/cover;">
+    <div class="overlay">
+      <h2>Book your trip with confidence</h2>
+      <p>Safe, student-focused travel from UCC to major destinations.</p>
+      <a href="index.html" class="cta-button">Book Now</a>
     </div>
   </section>
 
-  <!-- Team Section -->
-  <section id="team" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Section Header -->
-      <div class="text-center mb-16">
-        <div class="inline-flex items-center space-x-2 bg-gray-100 px-3 py-1 rounded-full mb-4">
-          <i data-lucide="users" class="w-4 h-4 text-gray-600"></i>
-          <span class="text-sm font-medium text-gray-700">Our Team</span>
-        </div>
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-          Meet Our Professional Team
-        </h2>
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-          Dedicated professionals ensuring your safe and comfortable journey.
-        </p>
-      </div>
-      
-      <!-- Team Members Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <!-- Team Member 1 - Emmanuel Wood -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-          <img src="Gov.jpg" alt="Emmanuel Wood" class="w-full h-48 object-cover object-top">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-900 mb-1">Emmanuel Wood</h3>
-            <p class="text-blue-600 font-medium mb-2 text-sm">CTO & Head of Finances</p>
-            <p class="text-sm text-gray-600">
-              Oversees financial planning and leads technology initiatives for seamless operations.
-            </p>
-          </div>
-        </div>
-        
-        <!-- Team Member 2 - De-Graft -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-          <img src="De-Graft.jpg" alt="De-Graft" class="w-full h-48 object-cover object-top">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-900 mb-1">Appiah De-Graft</h3>
-            <p class="text-blue-600 font-medium mb-2 text-sm">Head of Coordination</p>
-            <p class="text-sm text-gray-600">
-              Oversees daily logistics and ensures every passenger enjoys a seamless travel experience.
-            </p>
-          </div>
-        </div>
-        
-        <!-- Team Member 3 - Noble -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-          <img src="Noble.jpg" alt="Noble" class="w-full h-48 object-cover object-top">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-900 mb-1">John Noble</h3>
-            <p class="text-blue-600 font-medium mb-2 text-sm">Head of Marketing & Publicity</p>
-            <p class="text-sm text-gray-600">
-              Promotes our services and keeps students informed about travel updates and offers.
-            </p>
-          </div>
-        </div>
-        
-        <!-- Team Member 4 - Obese -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-          <img src="Obese.jpg" alt="Obese" class="w-full h-48 object-cover object-top">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-900 mb-1">Emmanuel Obese Asare</h3>
-            <p class="text-blue-600 font-medium mb-2 text-sm">Head of Safety & Maintenance</p>
-            <p class="text-sm text-gray-600">
-              Oversees vehicle safety and ensures all buses are well maintained for every trip.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- Partners Section -->
+<section class="partners" data-aos="fade-up">
+  <div class="container">
+    <h2>Meet the Partners of DNG Transport Brokerage</h2>
+    <div class="partner-cards">
 
-  <!-- Contact Section -->
-  <section id="contact" class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Section Header -->
-      <div class="text-center mb-16">
-        <div class="inline-flex items-center space-x-2 bg-blue-100 px-3 py-1 rounded-full mb-4">
-          <i data-lucide="phone" class="w-4 h-4 text-blue-600"></i>
-          <span class="text-sm font-medium text-blue-700">Contact Us</span>
-        </div>
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-          Get In Touch
-        </h2>
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-          Need help with booking or have questions? We're here to assist you.
-        </p>
+      <div class="card">
+        <img src="Gov.jpg" alt="Emmanuel Wood" />
+        <h3>Emmanuel Wood</h3>
+        <p>CTO & Head of Finances</p>
       </div>
-      
-      <!-- Contact Information -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-        <div class="bg-white p-8 rounded-lg shadow-md">
-          <h3 class="text-xl font-semibold text-gray-900 mb-6">Contact Information</h3>
-          <div class="space-y-4">
-            <div class="flex items-center space-x-3">
-              <i data-lucide="phone" class="w-5 h-5 text-blue-600"></i>
-              <div>
-                <p class="font-medium text-gray-900">Phone</p>
-                <p class="text-gray-600">0598106751 • 0595223640 • 0246962314</p>
-              </div>
-            </div>
-            <div class="flex items-center space-x-3">
-              <i data-lucide="message-circle" class="w-5 h-5 text-green-600"></i>
-              <div>
-                <p class="font-medium text-gray-900">WhatsApp</p>
-                <p class="text-gray-600">Available 24/7 for bookings and support</p>
-              </div>
-            </div>
-            <div class="flex items-center space-x-3">
-              <i data-lucide="map-pin" class="w-5 h-5 text-red-600"></i>
-              <div>
-                <p class="font-medium text-gray-900">Location</p>
-                <p class="text-gray-600">University of Cape Coast Campus</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="bg-white p-8 rounded-lg shadow-md">
-          <h3 class="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h3>
-          <div class="space-y-4">
-            <a href="booking.html" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2">
-              <i data-lucide="calendar" class="w-5 h-5"></i>
-              <span>Book Your Trip Now</span>
-            </a>
-            <a href="tel:0598106751" class="w-full bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center justify-center space-x-2">
-              <i data-lucide="phone" class="w-5 h-5"></i>
-              <span>Call Us Now</span>
-            </a>
-            <a href="https://wa.me/233598106751" class="w-full bg-gray-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors flex items-center justify-center space-x-2">
-              <i data-lucide="message-circle" class="w-5 h-5"></i>
-              <span>WhatsApp Chat</span>
-            </a>
-          </div>
-        </div>
+
+      <div class="card">
+        <img src="Noble.jpg" alt="John Noble" />
+        <h3>John Noble</h3>
+        <p>Head of Marketing & Publicity</p>
+      </div>
+
+      <div class="card">
+        <img src="De-Graft.jpg" alt="Appiah De-Graft" />
+        <h3>Appiah De-Graft</h3>
+        <p>Head of Coordination</p>
+      </div>
+
+      <div class="card">
+        <img src="Obese.jpg" alt="Emmanuel Obese Asare" />
+        <h3>Emmanuel Obese Asare</h3>
+        <p>Head of Public Relations</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- WhatsApp Support -->
+  <section class="contact" data-aos="fade-up">
+    <div class="container">
+      <h2>Need Help?</h2>
+      <div class="whatsapp-buttons">
+        <a href="https://wa.me/233598106751" class="whatsapp-btn">Chat on WhatsApp</a>
+        <a href="https://chat.whatsapp.com/KyRztHVLJUfFt6DD18EcmN" class="whatsapp-btn">Join Travel Group</a>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Main Footer Content -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-        
-        <!-- Company Info -->
-        <div class="col-span-1 md:col-span-2">
-          <div class="flex items-center space-x-3 mb-4">
-            <img src="DNG logo.jpg" alt="DNG Transport" class="h-8 w-8 rounded-lg object-cover">
-            <h3 class="text-xl font-bold">DNG Transport</h3>
-          </div>
-          <p class="text-gray-400 mb-4 max-w-md">
-            Safe, reliable, and affordable transportation for university students. 
-            Connecting UCC to destinations across Ghana with professional service.
-          </p>
-          <div class="flex space-x-4">
-            <a href="tel:0598106751" class="text-gray-400 hover:text-white transition-colors">
-              <i data-lucide="phone" class="w-5 h-5"></i>
-            </a>
-            <a href="https://wa.me/233598106751" class="text-gray-400 hover:text-white transition-colors">
-              <i data-lucide="message-circle" class="w-5 h-5"></i>
-            </a>
-            <a href="mailto:info@dngtransport.com" class="text-gray-400 hover:text-white transition-colors">
-              <i data-lucide="mail" class="w-5 h-5"></i>
-            </a>
-          </div>
-        </div>
-        
-        <!-- Quick Links -->
-        <div>
-          <h4 class="font-semibold text-white mb-4">Quick Links</h4>
-          <ul class="space-y-2 text-gray-400">
-            <li><a href="#features" class="hover:text-white transition-colors">Services</a></li>
-            <li><a href="#pricing" class="hover:text-white transition-colors">Pricing</a></li>
-            <li><a href="#team" class="hover:text-white transition-colors">Team</a></li>
-            <li><a href="booking.html" class="hover:text-white transition-colors">Book Now</a></li>
-          </ul>
-        </div>
-        
-        <!-- Contact Info -->
-        <div>
-          <h4 class="font-semibold text-white mb-4">Contact</h4>
-          <ul class="space-y-2 text-gray-400 text-sm">
-            <li class="flex items-center space-x-2">
-              <i data-lucide="phone" class="w-4 h-4"></i>
-              <span>0598106751</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <i data-lucide="phone" class="w-4 h-4"></i>
-              <span>0595223640</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <i data-lucide="phone" class="w-4 h-4"></i>
-              <span>0246962314</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <i data-lucide="map-pin" class="w-4 h-4"></i>
-              <span>University of Cape Coast</span>
-            </li>
-          </ul>
-        </div>
+  <footer>
+    <div class="container">
+      <div class="contact">
+        <span>📍 University of Cape Coast</span>
+        <span>🚌 Transiting you back home</span>
+        <span>☎ 0598106751 / 0595223640 / 0246962314</span>
       </div>
-      
-      <!-- Bottom Footer -->
-      <div class="border-t border-gray-800 pt-8">
-        <div class="flex flex-col md:flex-row justify-between items-center">
-          <p class="text-gray-400 text-sm mb-4 md:mb-0">
-            © 2025 DNG Transport Brokerage. All rights reserved.
-          </p>
-          
-          <div class="flex items-center space-x-2 text-gray-400 text-sm">
-            <i data-lucide="bus" class="w-4 h-4"></i>
-            <span>Transiting you back home safely</span>
-          </div>
-        </div>
-      </div>
+      <p>© 2025 DNG TRANSPORT BROKERAGE. All rights reserved.</p>
     </div>
   </footer>
 
-  <!-- JavaScript for mobile menu toggle and pricing data -->
-  <script>
-    // Initialize Lucide icons
-    lucide.createIcons();
-
-    // Mobile menu toggle
-    function toggleMobileMenu() {
-      const mobileMenu = document.getElementById('mobileMenu');
-      mobileMenu.classList.toggle('hidden');
-    }
-
-    // Load pricing data for landing page
-    async function loadLandingPagePricing() {
-      try {
-        const response = await fetch('pricing.json');
-        const pricingData = await response.json();
-        
-        const tableBody = document.getElementById('pricingTableBody');
-        tableBody.innerHTML = '';
-        
-        // Show first 9 destinations on landing page
-        const destinations = pricingData.destinations.slice(0, 9);
-        
-        destinations.forEach(destination => {
-          const row = document.createElement('div');
-          row.className = 'hover:bg-gray-50 transition-colors';
-          
-          row.innerHTML = `
-            <!-- Desktop Table Row -->
-            <div class="hidden md:grid md:grid-cols-4 gap-4 items-center px-4 sm:px-6 py-4">
-              <div class="font-semibold text-gray-900">
-                <div>${destination.destination}</div>
-                <div class="text-sm text-gray-500">${destination.region}</div>
-              </div>
-              <div class="text-center">
-                <span class="text-lg font-semibold text-green-600">GHS ${destination.sprinterBus}</span>
-              </div>
-              <div class="text-center">
-                ${destination.vipAvailable 
-                  ? `<span class="text-lg font-semibold text-blue-600">GHS ${destination.vipBus}</span>`
-                  : `<span class="text-sm text-gray-400">Not Available</span>`
-                }
-              </div>
-              <div class="text-center">
-                <a href="booking.html?destination=${encodeURIComponent(destination.destination)}" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 inline-flex items-center space-x-2 shadow-md hover:shadow-lg">
-                  <span>Book Now</span>
-                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
-              </div>
-            </div>
-            
-            <!-- Mobile Card Layout -->
-            <div class="md:hidden p-4">
-              <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow">
-                <div class="flex justify-between items-start mb-3">
-                  <div>
-                    <h3 class="text-lg font-semibold text-gray-900">${destination.destination}</h3>
-                    <p class="text-sm text-gray-500">${destination.region}</p>
-                  </div>
-                  ${destination.vipAvailable 
-                    ? `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">VIP Available</span>`
-                    : `<span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Sprinter Only</span>`
-                  }
-                </div>
-                
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex space-x-6">
-                    <div class="text-center">
-                      <p class="text-xs text-gray-500 mb-1">Sprinter Bus</p>
-                      <p class="text-lg font-semibold text-green-600">GHS ${destination.sprinterBus}</p>
-                    </div>
-                    <div class="text-center">
-                      <p class="text-xs text-gray-500 mb-1">VIP Bus</p>
-                      ${destination.vipAvailable 
-                        ? `<p class="text-lg font-semibold text-blue-600">GHS ${destination.vipBus}</p>`
-                        : `<p class="text-sm text-gray-400">N/A</p>`
-                      }
-                    </div>
-                  </div>
-                </div>
-                
-                <a href="booking.html?destination=${encodeURIComponent(destination.destination)}" 
-                   class="w-full bg-blue-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center space-x-2 touch-manipulation">
-                  <span>Book Now</span>
-                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
-              </div>
-            </div>
-          `;
-          
-          tableBody.appendChild(row);
-        });
-        
-        // Re-initialize icons
-        lucide.createIcons();
-        
-      } catch (error) {
-        console.error('Error loading pricing data:', error);
-        document.getElementById('pricingTableBody').innerHTML = `
-          <div class="px-6 py-8 text-center">
-            <p class="text-red-600">Error loading pricing data. Please refresh the page.</p>
-          </div>
-        `;
-      }
-    }
-
-    // Load pricing data when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      loadLandingPagePricing();
-    });
-  </script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init();</script>
 </body>
 </html>
