@@ -1,6 +1,6 @@
 /**
  * DNG Transport Booking System - Google Apps Script
- * Clean, minimal, and professional Google Sheets integration
+ * Updated to match website fields and requirements
  */
 
 // Configuration
@@ -19,163 +19,122 @@ const BRAND_COLORS = {
 };
 
 /**
- * Creates a minimal, clean, and professional booking sheet
+ * Creates a booking sheet matching website fields
  */
 function createBookingSheet() {
   try {
     const spreadsheet = SpreadsheetApp.openById(SHEET_ID);
     let sheet = spreadsheet.getSheetByName(SHEET_NAME);
-
-    // Create or reset the sheet safely
+    
+    // Create or reset the sheet
     if (sheet) {
-      // Safely clear everything
       try {
-        // First, break apart any merged cells
         const dataRange = sheet.getDataRange();
         if (dataRange.getNumRows() > 0 && dataRange.getNumColumns() > 0) {
           dataRange.breakApart();
         }
-        
-        // Clear all content and formatting
         sheet.clear();
-        sheet.clearFormats();
-        sheet.clearConditionalFormatRules();
-        sheet.clearDataValidations();
       } catch (e) {
-        Logger.log('Sheet clearing completed with minor warnings: ' + e.message);
+        Logger.log('Sheet clearing completed: ' + e.message);
       }
     } else {
       sheet = spreadsheet.insertSheet(SHEET_NAME);
     }
 
-    // Clean, minimal headers
+    // Website-matching headers
     const headers = [
-      "Date & Time",
-      "Booking ID", 
-      "Customer Name",
+      "Timestamp",
+      "Booking ID",
+      "Full Name",
       "Phone",
       "Destination",
-      "Travel Date",
       "Pickup Point",
+      "Travel Date",
       "Bus Type",
-      "Price",      
-      "Emergency Contact",
+      "Price (GHS)",
+      "Payer Name",
+      "Emergency Name",
       "Emergency Phone",
       "Status",
       "Payment Status"
     ];
 
-    // Simple title - no merge to avoid issues
-    sheet.getRange(1, 1)
-      .setValue("DNG TRANSPORT - BOOKING DASHBOARD")
-      .setFontSize(12)
+    // Set up header row
+    sheet.getRange(1, 1, 1, headers.length)
+      .setValues([headers])
       .setFontWeight("bold")
       .setBackground(BRAND_COLORS.primary)
       .setFontColor(BRAND_COLORS.white)
-      .setHorizontalAlignment("center");
-
-    // Extend title background across all columns
-    sheet.getRange(1, 1, 1, headers.length)
-      .setBackground(BRAND_COLORS.primary)
-      .setFontColor(BRAND_COLORS.white);
-
-    // Set clean headers
-    sheet.getRange(2, 1, 1, headers.length).setValues([headers]);
-    sheet.getRange(2, 1, 1, headers.length)
-      .setFontWeight("bold")
-      .setFontSize(10)
-      .setBackground(BRAND_COLORS.light)
-      .setFontColor(BRAND_COLORS.text)
       .setHorizontalAlignment("center")
-      .setVerticalAlignment("middle")
       .setBorder(true, true, true, true, false, false, BRAND_COLORS.border, SpreadsheetApp.BorderStyle.SOLID);
 
-    // Freeze header rows
-    sheet.setFrozenRows(2);
+    // Freeze header row
+    sheet.setFrozenRows(1);
 
-    // Set optimal column widths
-    const columnWidths = [140, 120, 150, 120, 130, 110, 90, 90, 200, 150, 120, 130, 130];
+    // Set column widths
+    const columnWidths = [150, 140, 150, 120, 120, 150, 120, 100, 90, 150, 150, 150, 120, 120];
     columnWidths.forEach((width, index) => {
       sheet.setColumnWidth(index + 1, width);
     });
 
-    // Apply professional formatting and validation
-    setupColumnFormatting(sheet, headers.length);
+    // Apply formatting
+    setupColumnFormatting(sheet);
     addDropdownValidation(sheet);
 
-    Logger.log('✅ Professional booking sheet created successfully');
+    Logger.log('✅ Booking sheet created successfully');
     return sheet;
     
   } catch (error) {
-    Logger.log('❌ Error creating booking sheet: ' + error.message);
+    Logger.log('❌ Error creating sheet: ' + error.message);
     throw error;
   }
 }
 
-
 /**
- * Setup professional column formatting
+ * Setup column formatting
  */
-function setupColumnFormatting(sheet, headerCount) {
+function setupColumnFormatting(sheet) {
   // Date columns formatting
-  sheet.getRange('A3:A1000').setNumberFormat('dd/mm/yyyy hh:mm'); // Timestamp
-  sheet.getRange('F3:F1000').setNumberFormat('dd/mm/yyyy'); // Travel Date
+  sheet.getRange('A2:A').setNumberFormat('yyyy-mm-dd hh:mm:ss');
+  sheet.getRange('G2:G').setNumberFormat('yyyy-mm-dd');
   
   // Price column formatting
-  sheet.getRange('H3:H1000').setNumberFormat('₵#,##0.00');
+  sheet.getRange('I2:I').setNumberFormat('₵#,##0.00');
   
-  // Text alignment for better readability
-  sheet.getRange('A3:A1000').setHorizontalAlignment('center'); // Timestamp
-  sheet.getRange('B3:B1000').setHorizontalAlignment('center'); // Booking ID
-  sheet.getRange('D3:E1000').setHorizontalAlignment('left'); // Phone, Destination
-  sheet.getRange('F3:H1000').setHorizontalAlignment('center'); // Date, Bus Type, Price, Pickup Point
-  sheet.getRange('L3:M1000').setHorizontalAlignment('center'); // Status columns
-  
-  // Add subtle alternating row colors for better readability
-  const dataRange = sheet.getRange(3, 1, 997, headerCount);
-  dataRange.applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY);
+  // Text alignment
+  const centerCols = [1, 2, 4, 6, 7, 8, 12, 13]; // Timestamp, ID, Phone, Travel Date, Bus Type, Price, Status
+  centerCols.forEach(col => {
+    sheet.getRange(2, col, sheet.getMaxRows() - 1).setHorizontalAlignment('center');
+  });
 }
 
 /**
- * Add dropdown validation for status columns
+ * Add dropdown validation
  */
 function addDropdownValidation(sheet) {
   // Bus Type dropdown
   const busTypeRule = SpreadsheetApp.newDataValidation()
     .requireValueInList(['Sprinter', 'VIP'], true)
-    .setAllowInvalid(false)
-    .setHelpText('Select bus type')
     .build();
-  sheet.getRange('G3:G1000').setDataValidation(busTypeRule);
+  sheet.getRange('H2:H').setDataValidation(busTypeRule);
 
-  // Booking Status dropdown
+  // Status dropdown
   const statusRule = SpreadsheetApp.newDataValidation()
-    .requireValueInList([
-      'Confirmed',
-      'Cancelled'
-    ], true)
-    .setAllowInvalid(false)
-    .setHelpText('Select booking status')
+    .requireValueInList(['Pending', 'Confirmed', 'Cancelled'], true)
     .build();
-  sheet.getRange('L3:L1000').setDataValidation(statusRule);
+  sheet.getRange('M2:M').setDataValidation(statusRule);
 
   // Payment Status dropdown
   const paymentRule = SpreadsheetApp.newDataValidation()
-    .requireValueInList([
-      'Paid',
-      'UnPaid',
-      'Refunded'
-    ], true)
-    .setAllowInvalid(false)
-    .setHelpText('Select payment status')
+    .requireValueInList(['UnPaid', 'Paid', 'Refunded'], true)
     .build();
-  sheet.getRange('M3:M1000').setDataValidation(paymentRule);
+  sheet.getRange('N2:N').setDataValidation(paymentRule);
 }
 
 /**
- * Save booking data to the sheet with clean formatting
+ * Save booking data to the sheet
  */
-function saveBookingToSheet(booking) {
+function saveBookingToSheet(bookingData) {
   try {
     let sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
     
@@ -184,162 +143,126 @@ function saveBookingToSheet(booking) {
       sheet = createBookingSheet();
     }
 
-    // Prepare clean row data
+    // Map website data to sheet columns
     const rowData = [
-      new Date(booking.timestamp || new Date()),
-      booking.bookingReference || generateBookingReference(),
-      booking.fullName || '',
-      booking.phoneNumber || '',
-      booking.destination || '',
-      booking.pickup point || '',
-      booking.travelDate === 'Saturday, 16th August' ? 'Saturday, 16th August' : 'Sunday, 17th August',
-      booking.busType === 'vip' ? 'VIP' : 'Sprinter',
-      parseFloat(booking.price) || 0,
-      booking.specialRequests || '',
-      booking.emergencyName || '',
-      booking.emergencyPhone || '',
-      'Pending Confirmation',
-      'UnPaid'
+      new Date(), // Timestamp
+      generateBookingReference(), // Booking ID
+      bookingData.fullName || '',
+      bookingData.phone || '',
+      bookingData.destination || '',
+      bookingData.pickupPoint || '', // Pickup Point field
+      new Date(bookingData.travelDate), // Travel Date
+      bookingData.busType === 'vip' ? 'VIP' : 'Sprinter', // Bus Type
+      parseFloat(bookingData.price) || 0, // Price
+      bookingData.payerName || '', // Payer Name
+      bookingData.emergencyName || '', // Emergency Name
+      bookingData.emergencyPhone || '', // Emergency Phone
+      'Pending', // Status
+      'UnPaid' // Payment Status
     ];
 
-    // Add the booking to the sheet
+    // Add to sheet
     sheet.appendRow(rowData);
-    
-    // Get the row that was just added
     const lastRow = sheet.getLastRow();
-    const newRowRange = sheet.getRange(lastRow, 1, 1, rowData.length);
     
-    // Apply clean formatting
-    newRowRange.setFontFamily('Arial')
-               .setFontSize(9)
-               .setVerticalAlignment('middle');
+    // Highlight new booking
+    sheet.getRange(lastRow, 1, 1, rowData.length)
+      .setBackground('#f0f7ff')
+      .setBorder(true, true, true, true, true, true, '#d1e0ff', SpreadsheetApp.BorderStyle.SOLID);
 
-    // Highlight VIP bookings subtly
-    if (booking.busType === 'vip') {
-      sheet.getRange(lastRow, 7).setBackground('#fef3c7').setFontWeight('bold');
-    }
-
-    Logger.log('✅ Booking saved successfully: ' + booking.bookingReference);
-    return { success: true, message: 'Booking saved successfully' };
-
-  } catch (error) {
-    Logger.log('❌ Error saving booking: ' + error.message);
-    return { success: false, message: error.message };
-  }
-}
-
-    // Auto-resize if needed
+    // Auto-resize columns
     sheet.autoResizeColumns(1, rowData.length);
 
-    Logger.log(`✅ Booking saved with beautiful formatting for: ${booking.fullName}`);
-    
     return {
       success: true,
-      row: lastRow,
-      data: booking,
-      sheetUrl: `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit#gid=${sheet.getSheetId()}`
+      bookingId: rowData[1],
+      timestamp: rowData[0]
     };
     
   } catch (error) {
-    Logger.log(`❌ Error saving booking: ${error.message}`);
-    throw new Error(`Failed to save booking: ${error.message}`);
+    Logger.log('❌ Save error: ' + error.message);
+    return {
+      success: false,
+      message: error.toString()
+    };
   }
 }
 
 /**
- * Handle POST requests from the booking form
+ * Handle POST requests from website
  */
 function doPost(e) {
+  let response;
+  
   try {
-    // Parse the incoming booking data
-    const data = JSON.parse(e.postData.contents);
+    // Parse incoming data
+    const bookingData = JSON.parse(e.postData.contents);
     
-    // Generate booking reference if not provided
-    if (!data.bookingReference) {
-      data.bookingReference = generateBookingReference();
+    // Validate required fields
+    const requiredFields = ['fullName', 'phone', 'destination', 'pickupPoint', 'travelDate', 'busType', 'price'];
+    const missingFields = requiredFields.filter(field => !bookingData[field]);
+    
+    if (missingFields.length > 0) {
+      throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
     }
     
-    // Save to Google Sheets
-    const result = saveBookingToSheet(data);
+    // Save to sheet
+    const saveResult = saveBookingToSheet(bookingData);
     
-    if (result.success) {
-      return ContentService
-        .createTextOutput(JSON.stringify({
-          success: true,
-          message: 'Booking saved successfully!',
-          bookingReference: data.bookingReference,
-          timestamp: new Date().toISOString()
-        }))
-        .setMimeType(ContentService.MimeType.JSON);
+    if (saveResult.success) {
+      response = {
+        success: true,
+        bookingId: saveResult.bookingId,
+        timestamp: saveResult.timestamp.toISOString(),
+        message: "Booking saved successfully!"
+      };
     } else {
-      throw new Error(result.message);
+      throw new Error(saveResult.message || 'Failed to save booking');
     }
-      
   } catch (error) {
-    Logger.log('❌ Error processing booking: ' + error.message);
-    
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        success: false,
-        error: error.toString(),
-        message: 'Please try again or contact support.',
-        timestamp: new Date().toISOString()
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
+    response = {
+      success: false,
+      error: error.message,
+      message: "Booking failed. Please try again."
+    };
   }
-}
-
-/**
- * Handle GET requests for testing
- */
-function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({ 
-      message: "DNG Transport Booking System - API Active",
-      timestamp: new Date().toISOString()
-    }))
+  
+  // Return response
+  return ContentService.createTextOutput(JSON.stringify(response))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
 /**
- * Generate unique booking reference
+ * Generate booking reference
  */
 function generateBookingReference() {
-  const date = new Date();
-  const year = date.getFullYear().toString().slice(-2);
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let ref = 'DNG-';
   
-  return `DNG${year}${month}${day}${random}`;
+  for (let i = 0; i < 6; i++) {
+    ref += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  
+  return ref;
 }
 
 /**
- * Test function to create the booking sheet
+ * Test function
  */
-function testCreateSheet() {
-  try {
-    const sheet = createBookingSheet();
-    Logger.log('✅ Test sheet created successfully');
-    
-    // Add a sample booking for testing
-    const sampleBooking = {
-      timestamp: new Date(),
-      fullName: 'Test Customer',
-      phoneNumber: '0551234567',
-      destination: 'Kumasi',
-      travelDate: '2024-01-15',
-      busType: 'vip',
-      price: 150,
-      specialRequests: 'Window seat',
-      emergencyName: 'Emergency Contact',
-      emergencyPhone: '0557654321'
-    };
-    
-    const result = saveBookingToSheet(sampleBooking);
-    Logger.log('Sample booking result: ' + JSON.stringify(result));
-    
-  } catch (error) {
-    Logger.log('❌ Test failed: ' + error.message);
-  }
+function testSaveBooking() {
+  const testData = {
+    fullName: "Kwame Asante",
+    phone: "0551234567",
+    destination: "Kumasi",
+    pickupPoint: "Old Site Shuttle Terminal",
+    travelDate: "2025-08-16",
+    busType: "vip",
+    price: "150",
+    payerName: "Kwame Asante",
+    emergencyName: "Ama Asante",
+    emergencyPhone: "0557654321"
+  };
+  
+  const result = saveBookingToSheet(testData);
+  Logger.log(JSON.stringify(result));
 }
