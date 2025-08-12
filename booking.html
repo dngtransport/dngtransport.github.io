@@ -1,1255 +1,784 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Your Trip - DNG Transport</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="icon" type="image/jpeg" href="DNG logo.jpg">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f0f7ff',
-              100: '#e0efff',
-              200: '#bae0ff',
-              300: '#7cc8ff',
-              400: '#36acff',
-              500: '#0c91f1',
-              600: '#0074ce',
-              700: '#005ca6',
-              800: '#004f89',
-              900: '#1e3c72',
-              950: '#162b56',
-            }
-          },
-          fontFamily: {
-            'sans': ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DNG Transport Booking</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    /* Touch-friendly adjustments for mobile */
-    .touch-manipulation {
-      touch-action: manipulation;
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f1f5f9;
+      color: #333;
     }
 
-    .form-input {
-      transition: all 0.2s ease;
-      min-height: 44px;
-      /* iOS minimum touch target */
-    }
-
-    .form-input:focus {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-    }
-
-    /* Enhanced mobile input styling */
-    @media (max-width: 640px) {
-      .form-input {
-        font-size: 16px;
-        /* Prevents zoom on iOS */
-      }
-    }
-
-    .step {
-      display: none;
-      opacity: 0;
-      transform: translateX(20px);
-      transition: all 0.3s ease;
-    }
-
-    .step.active {
-      display: block;
-      opacity: 1;
-      transform: translateX(0);
-      animation: fadeInLeft 0.4s ease forwards;
-    }
-
-    .step-indicator {
+    .header {
       position: relative;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      padding: 20px;
+      color: white;
+      text-align: center;
     }
 
-    .step-indicator::before {
-      content: '';
+    .home-btn {
       position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: #e5e7eb;
-      z-index: 1;
+      top: 20px;
+      left: 20px;
+      color: white;
+      background: rgba(255,255,255,0.2);
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      z-index: 10;
     }
 
-    .step-indicator .step-item {
-      position: relative;
-      z-index: 2;
+    .logo {
+      max-height: 80px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 2rem auto;
       background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     }
 
-    .step-progress {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      height: 2px;
-      background: linear-gradient(to right, #0074ce, #005ca6);
-      transition: width 0.4s ease;
-      z-index: 1;
+    h2 {
+      text-align: center;
+      color: #1e3c72;
+      margin-bottom: 1.5rem;
     }
 
-    @keyframes fadeInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+    .form-group {
+      margin-bottom: 1.2rem;
     }
 
-    /* Mobile-specific improvements */
-    @media (max-width: 640px) {
-      .step-indicator .step-item {
-        min-width: 48px;
-        /* Better touch targets */
-      }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background-color: #f9fbff;
+    }
+
+    .bus-type-container {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .bus-type-option {
+      flex: 1;
+      border: 2px solid #d1d5db;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      background-color: #fff;
+      transition: all 0.2s ease;
+    }
+
+    .bus-type-option.selected {
+      border-color: #1e3c72;
+      background-color: #e3eaf7;
+      font-weight: bold;
+    }
+
+    .bus-type-option input {
+      display: none;
+    }
+
+    .price-display {
+      font-weight: bold;
+      font-size: 1rem;
+      color: #1e3c72;
+      margin-bottom: 1.2rem;
+    }
+
+    .btn-pay {
+      background: #1e3c72;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .btn-pay:hover {
+      background: #2a5298;
+    }
+
+    footer {
+      text-align: center;
+      background: #0d1f3d;
+      color: white;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      font-size: 0.95rem;
+    }
+
+    footer span {
+      display: block;
+      margin-bottom: 4px;
+    }
+    
+    /* Date options container */
+    .date-options {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+      .date-option.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background-color: #f0f0f0;
+    }
+    
+    .date-option {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid #d1d5db;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      background-color: #fff;
+      transition: all 0.2s ease;
+    }
+    
+    .date-option.selected {
+      border-color: #1e3c72;
+      background-color: #e3eaf7;
+      font-weight: bold;
     }
   </style>
 </head>
 
-<body class="bg-gray-50 min-h-screen font-sans">
-  <!-- Navigation -->
-  <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <!-- Logo -->
-        <div class="flex items-center space-x-3">
-          <img src="DNG logo.jpg" alt="DNG Transport" class="h-10 w-10 rounded-lg object-cover">
-          <div>
-            <h1 class="text-xl font-bold text-gray-900">DNG Transport</h1>
-            <p class="text-sm text-gray-500">Safe & Reliable</p>
+<body>
+  <header class="header">
+    <a href="homepage.html" class="home-btn">← Home</a>
+    <img src="DNG logo.jpg" alt="DNG Logo" class="logo" />
+    <h1>DNG TRANSPORT BROKERAGE</h1>
+    <p>Fast, reliable, and affordable transportation</p>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2>Book Your Trip</h2>
+      <form id="bookingForm">
+        <div class="form-group">
+          <label for="fullName">Full Name *</label>
+          <input type="text" id="fullName" name="fullName" required />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" required />
+        </div>
+
+        <div class="form-group">
+          <label for="destination">Destination *</label>
+          <select id="destination" name="destination" required>
+            <option value="">-- Select Destination --</option>
+            <option value="Kumasi" data-price-sprinter="117" data-price-vip="152">Kumasi</option>
+            <option value="Tema" data-price="91">Tema</option>
+            <option value="Ashaiman" data-price="91">Ashaiman</option>
+            <option value="Kasoa" data-price="72">Kasoa</option>
+            <option value="Madina/Adenta" data-price="86">Madina/Adenta</option>
+            <option value="Kaneshie/Circle" data-price-sprinter="77" data-price-vip="117">Kaneshie/Circle</option>
+            <option value="Koforidua" data-price="152">Koforidua</option>
+            <option value="Akim Oda" data-price="86">Akim Oda</option>
+            <option value="Pokuase/Amasaman" data-price="81">Pokuase/Amasaman</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="pickupPoint">Pickup Point *</label>
+          <select id="pickupPoint" name="pickupPoint" required>
+            <option value="">-- Select Pickup Point --</option>
+            <option value="Old Site Shuttle Terminal">Old Site Shuttle Terminal</option>
+            <option value="New Site Shuttle Terminal">New Site Shuttle Terminal</option>
+            <option value="Science Shuttle Terminal">Science Shuttle Terminal</option>
+            <option value="SRC Hall Shuttle Terminal">SRC Hall Shuttle Terminal</option>
+          </select>
+        </div>
+        
+        <!-- Travel date field -->
+         <div class="form-group">
+          <label>Travel Date *</label>
+          <div class="date-options" id="dateOptions">
+            <div class="date-option selected" data-date="2025-08-16">
+              Saturday, 16th August
+            </div>
+            <div class="date-option" data-date="2025-08-17">
+              Sunday, 17th August
+            </div>
+          </div>
+          <input type="hidden" id="travelDate" name="travelDate" value="2025-08-16" required />
+        </div>
+
+        <div class="form-group">
+          <label>Bus Type *</label>
+          <div class="bus-type-container">
+            <label class="bus-type-option selected" id="sprinterOption">
+              <input type="radio" name="busType" value="sprinter" checked />
+              Sprinter Bus
+            </label>
+            <label class="bus-type-option" id="vipOption" style="display: none;">
+              <input type="radio" name="busType" value="vip" />
+              VIP Bus
+            </label>
           </div>
         </div>
 
-        <!-- Navigation Links -->
-        <div class="hidden md:flex items-center space-x-8">
-          <a href="index.html" class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
-            Home
-          </a>
-          <a href="pricing.html" class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
-            Pricing
-          </a>
-          <a href="tel:0598106751" class="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200">
-            Contact
-          </a>
+        <div class="form-group">
+          <label for="payerName">Payer's Name (shown in MOMO confirmation message)</label>
+          <input type="text" id="payerName" name="payerName" placeholder="Enter Payer's Name" required />
+        </div>
+        
+        <!-- Emergency contact fields -->
+        <div class="form-group">
+          <label for="emergencyName">Emergency Contact Name</label>
+          <input type="text" id="emergencyName" name="emergencyName" placeholder="Optional" />
+        </div>
+        
+        <div class="form-group">
+          <label for="emergencyPhone">Emergency Contact Phone</label>
+          <input type="tel" id="emergencyPhone" name="emergencyPhone" placeholder="Optional" />
         </div>
 
-        <!-- Mobile Menu Button -->
-        <button id="mobileMenuBtn"
-          class="md:hidden p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors touch-manipulation">
-          <i data-lucide="menu" class="w-5 h-5"></i>
-        </button>
-      </div>
+        <div class="price-display" id="price">Price: GHS 0.00</div>
 
-      <!-- Mobile Menu -->
-      <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
-        <div class="px-4 py-4 space-y-1">
-          <a href="index.html"
-            class="block py-3 text-gray-600 font-medium hover:text-gray-900 hover:bg-gray-50 rounded-lg px-3 transition-colors touch-manipulation">Home</a>
-          <a href="pricing.html"
-            class="block py-3 text-gray-600 font-medium hover:text-gray-900 hover:bg-gray-50 rounded-lg px-3 transition-colors touch-manipulation">Pricing</a>
-          <a href="tel:0598106751"
-            class="block py-3 text-blue-600 font-medium hover:text-blue-700 hover:bg-blue-50 rounded-lg px-3 transition-colors touch-manipulation">Contact</a>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Main Content -->
-  <main class="pt-8 pb-16">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Header -->
-      <div class="text-center mb-6 sm:mb-8">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">Book Your Trip</h1>
-        <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">Follow the simple steps below to secure your
-          seat with DNG
-          Transport.</p>
-      </div>
-
-      <!-- Step Indicator -->
-      <div class="mb-8 sm:mb-12">
-        <div class="step-indicator flex items-center justify-between max-w-3xl mx-auto px-4">
-          <div class="step-progress" id="stepProgress" style="width: 0%"></div>
-
-          <div class="step-item flex flex-col items-center" data-step="1">
-            <div
-              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-brand-600 bg-brand-600 text-white flex items-center justify-center text-sm font-bold transition-all duration-300 touch-manipulation"
-              id="step1Indicator">
-              1
-            </div>
-            <span class="text-xs sm:text-sm text-gray-600 mt-2 hidden sm:block font-medium">Travel Details</span>
-            <span class="text-xs text-gray-600 mt-1 sm:hidden font-medium">Travel</span>
-          </div>
-
-          <div class="step-item flex flex-col items-center" data-step="2">
-            <div
-              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-sm font-bold transition-all duration-300 touch-manipulation"
-              id="step2Indicator">
-              2
-            </div>
-            <span class="text-xs sm:text-sm text-gray-600 mt-2 hidden sm:block font-medium">Personal Info</span>
-            <span class="text-xs text-gray-600 mt-1 sm:hidden font-medium">Personal</span>
-          </div>
-
-          <div class="step-item flex flex-col items-center" data-step="3">
-            <div
-              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-sm font-bold transition-all duration-300 touch-manipulation"
-              id="step3Indicator">
-              3
-            </div>
-            <span class="text-xs sm:text-sm text-gray-600 mt-2 hidden sm:block font-medium">Emergency Contact</span>
-            <span class="text-xs text-gray-600 mt-1 sm:hidden font-medium">Emergency</span>
-          </div>
-
-          <div class="step-item flex flex-col items-center" data-step="4">
-            <div
-              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-sm font-bold transition-all duration-300 touch-manipulation"
-              id="step4Indicator">
-              4
-            </div>
-            <span class="text-xs sm:text-sm text-gray-600 mt-2 hidden sm:block font-medium">Review & Submit</span>
-            <span class="text-xs text-gray-600 mt-1 sm:hidden font-medium">Review</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Booking Form -->
-      <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-        <!-- Form Header -->
-        <div class="bg-gradient-to-r from-brand-600 to-brand-700 text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <h2 class="text-xl sm:text-2xl font-bold mb-2" id="stepTitle">Travel Details</h2>
-          <p class="text-brand-100 text-sm sm:text-base" id="stepDescription">Select your destination and travel
-            preferences</p>
-        </div>
-
-        <!-- Form Content -->
-        <form id="bookingForm" class="p-4 sm:p-6 lg:p-8">
-          <!-- Success Message (Hidden by default) -->
-          <div id="successMessage" class="hidden bg-green-50 border border-green-200 rounded-xl p-6 mb-6">
-            <div class="flex items-center space-x-3">
-              <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                <i data-lucide="check" class="w-5 h-5 text-green-600"></i>
-              </div>
-              <div>
-                <h3 class="font-bold text-green-800">Booking Submitted Successfully!</h3>
-                <p class="text-green-700">Thank you for choosing DNG Transport. We'll contact you soon to confirm your
-                  booking.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Error Message (Hidden by default) -->
-          <div id="errorMessage" class="hidden bg-red-50 border border-red-200 rounded-xl p-6 mb-6">
-            <div class="flex items-center space-x-3">
-              <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                <i data-lucide="alert-circle" class="w-5 h-5 text-red-600"></i>
-              </div>
-              <div>
-                <h3 class="font-bold text-red-800">Booking Error</h3>
-                <p class="text-red-700" id="errorText">Please check your information and try again.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 1: Travel Details -->
-          <div class="step active" id="step1">
-            <div class="space-y-8">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="form-group">
-                  <label for="destination" class="block text-sm font-semibold text-gray-700 mb-3">
-                    <i data-lucide="map-pin" class="w-5 h-5 inline mr-2 text-brand-600"></i>
-                    Where are you going? *
-                  </label>
-                  <select id="destination" name="destination" required
-                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none bg-white text-base sm:text-lg touch-manipulation">
-                    <option value="">Select your destination</option>
-                    <!-- Options will be dynamically loaded from pricing.json -->
-                  </select>
-                  <div class="text-red-500 text-sm mt-2 hidden" id="destinationError">Please select your destination
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="travelDate" class="block text-sm font-semibold text-gray-700 mb-3">
-                    <i data-lucide="calendar" class="w-5 h-5 inline mr-2 text-brand-600"></i>
-                    When do you want to travel? *
-                  </label>
-                  <input type="date" id="travelDate" name="travelDate" required disabled
-                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none text-base sm:text-lg disabled:bg-gray-100 disabled:cursor-not-allowed touch-manipulation"
-                    placeholder="Select destination first">
-                  <div class="text-red-500 text-sm mt-2 hidden" id="travelDateError">Please select your travel date
-                  </div>
-                  <div class="text-gray-500 text-sm mt-2" id="travelDateHint">Please select a destination first to see
-                    available travel dates</div>
-                </div>
-              </div>
-
-              <!-- Bus Type Selection -->
-              <div class="form-group">
-                <h3 class="text-lg font-semibold text-gray-900 mb-6 flex items-center">
-                  <i data-lucide="bus" class="w-5 h-5 mr-2 text-brand-600"></i>
-                  Choose your bus type *
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <!-- Sprinter Bus -->
-                  <div class="relative">
-                    <input type="radio" id="sprinter" name="busType" value="sprinter" class="peer sr-only" required>
-                    <label for="sprinter"
-                      class="block w-full p-6 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-brand-500 peer-checked:border-brand-500 peer-checked:bg-brand-50 transition-all duration-300 hover:shadow-md">
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-4">
-                          <div class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center">
-                            <i data-lucide="bus" class="w-6 h-6 text-brand-600"></i>
-                          </div>
-                          <div>
-                            <h3 class="font-bold text-gray-900 text-lg">Sprinter Bus</h3>
-                            <p class="text-sm text-gray-600">Standard comfortable seating</p>
-                          </div>
-                        </div>
-                        <div class="text-right">
-                          <div class="text-2xl font-bold text-brand-600" id="sprinterPrice">GHS 0</div>
-                          <div class="text-xs text-gray-500">per seat</div>
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-
-                  <!-- VIP Bus -->
-                  <div class="relative" id="vipBusOption">
-                    <input type="radio" id="vip" name="busType" value="vip" class="peer sr-only" disabled>
-                    <label for="vip"
-                      class="block w-full p-6 border-2 border-gray-200 rounded-xl cursor-not-allowed opacity-50 transition-all duration-300"
-                      id="vipLabel">
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-4">
-                          <div class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center">
-                            <i data-lucide="crown" class="w-6 h-6 text-brand-600"></i>
-                          </div>
-                          <div>
-                            <h3 class="font-bold text-gray-900 text-lg">VIP Bus</h3>
-                            <p class="text-sm text-gray-600">Premium seating & service</p>
-                          </div>
-                        </div>
-                        <div class="text-right">
-                          <div class="text-2xl font-bold text-brand-700" id="vipPrice">Not Available</div>
-                          <div class="text-xs text-gray-500">for this route</div>
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-                <div class="text-red-500 text-sm mt-3 hidden" id="busTypeError">Please select a bus type</div>
-              </div>
-
-              <!-- Special Requests -->
-              <div class="form-group">
-                <label for="specialRequests" class="block text-sm font-semibold text-gray-700 mb-3">
-                  <i data-lucide="message-square" class="w-5 h-5 inline mr-2 text-brand-600"></i>
-                  Any special requests? (Optional)
-                </label>
-                <textarea id="specialRequests" name="specialRequests" rows="3"
-                  class="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none resize-none"
-                  placeholder="Any special requests, pickup location details, or additional comments..."></textarea>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 2: Personal Information -->
-          <div class="step" id="step2">
-            <div class="space-y-8">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="form-group">
-                  <label for="fullName" class="block text-sm font-semibold text-gray-700 mb-3">
-                    <i data-lucide="user" class="w-5 h-5 inline mr-2 text-brand-600"></i>
-                    What's your full name? *
-                  </label>
-                  <input type="text" id="fullName" name="fullName" required
-                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none text-base sm:text-lg touch-manipulation"
-                    placeholder="Enter your full name">
-                  <div class="text-red-500 text-sm mt-2 hidden" id="fullNameError">Please enter your full name</div>
-                </div>
-
-                <div class="form-group">
-                  <label for="phoneNumber" class="block text-sm font-semibold text-gray-700 mb-3">
-                    <i data-lucide="phone" class="w-5 h-5 inline mr-2 text-brand-600"></i>
-                    What's your phone number? *
-                  </label>
-                  <input type="tel" id="phoneNumber" name="phoneNumber" required
-                    class="form-input w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none text-base sm:text-lg touch-manipulation"
-                    placeholder="0XX XXX XXXX" pattern="[0-9]{10}">
-                  <div class="text-red-500 text-sm mt-2 hidden" id="phoneNumberError">Please enter a valid 10-digit
-                    phone number</div>
-                </div>
-              </div>
-
-              <!-- Information Note -->
-              <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
-                <div class="flex items-start space-x-3">
-                  <i data-lucide="info" class="w-6 h-6 text-blue-600 mt-1"></i>
-                  <div>
-                    <h4 class="font-semibold text-blue-900 text-lg mb-2">Important Information</h4>
-                    <p class="text-blue-800">Please ensure your contact information is accurate. We will use this to
-                      confirm your booking and provide trip updates.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 3: Emergency Contact -->
-          <div class="step" id="step3">
-            <div class="space-y-8">
-              <div class="bg-amber-50 border border-amber-200 rounded-xl p-8">
-                <h3 class="font-bold text-amber-800 mb-4 text-xl flex items-center">
-                  <i data-lucide="shield-check" class="w-6 h-6 mr-3"></i>
-                  Emergency Contact Information
-                </h3>
-                <p class="text-amber-700 mb-6">Please provide an emergency contact who can be reached in case of any
-                  issues during your travel.</p>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label for="emergencyName" class="block text-sm font-semibold text-amber-800 mb-3">Emergency Contact
-                      Name</label>
-                    <input type="text" id="emergencyName" name="emergencyName"
-                      class="w-full px-4 py-4 border border-amber-300 rounded-lg focus:ring-2 focus:ring-brand-400 focus:border-transparent outline-none text-base sm:text-lg touch-manipulation"
-                      placeholder="Full name">
-                  </div>
-                  <div>
-                    <label for="emergencyPhone" class="block text-sm font-semibold text-amber-800 mb-3">Emergency
-                      Contact Phone</label>
-                    <input type="tel" id="emergencyPhone" name="emergencyPhone"
-                      class="w-full px-4 py-4 border border-amber-300 rounded-lg focus:ring-2 focus:ring-brand-400 focus:border-transparent outline-none text-base sm:text-lg touch-manipulation"
-                      placeholder="0XX XXX XXXX">
-                  </div>
-                </div>
-
-                <div class="mt-4 p-4 bg-amber-100 rounded-lg">
-                  <p class="text-amber-700 text-sm flex items-center">
-                    <i data-lucide="info" class="w-4 h-4 mr-2"></i>
-                    This information is optional but strongly recommended for your safety during travel.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 4: Review & Submit -->
-          <div class="step" id="step4">
-            <div class="space-y-8">
-              <!-- Booking Summary -->
-              <div class="bg-gray-50 rounded-xl p-8">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                  <i data-lucide="clipboard-check" class="w-6 h-6 mr-3 text-brand-600"></i>
-                  Review Your Booking
-                </h3>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <div>
-                    <h4 class="font-semibold text-gray-700 mb-4 text-lg">🚌 Travel Details</h4>
-                    <div class="space-y-3">
-                      <div class="flex justify-between py-2 border-b border-gray-200">
-                        <span class="text-gray-600">Destination:</span>
-                        <span class="font-semibold" id="summaryDestination">-</span>
-                      </div>
-                      <div class="flex justify-between py-2 border-b border-gray-200">
-                        <span class="text-gray-600">Travel Date:</span>
-                        <span class="font-semibold" id="summaryDate">-</span>
-                      </div>
-                      <div class="flex justify-between py-2 border-b border-gray-200">
-                        <span class="text-gray-600">Bus Type:</span>
-                        <span class="font-semibold" id="summaryBusType">-</span>
-                      </div>
-                      <div class="flex justify-between py-3 bg-brand-50 px-4 rounded-lg mt-4">
-                        <span class="text-gray-700 font-medium">Total Price:</span>
-                        <span class="font-bold text-brand-600 text-2xl" id="summaryPrice">GHS 0</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 class="font-semibold text-gray-700 mb-4 text-lg">👤 Passenger Information</h4>
-                    <div class="space-y-3">
-                      <div class="flex justify-between py-2 border-b border-gray-200">
-                        <span class="text-gray-600">Name:</span>
-                        <span class="font-semibold" id="summaryName">-</span>
-                      </div>
-                      <div class="flex justify-between py-2 border-b border-gray-200">
-                        <span class="text-gray-600">Phone:</span>
-                        <span class="font-semibold" id="summaryPhone">-</span>
-                      </div>
-                      <div class="flex justify-between py-2 border-b border-gray-200">
-                        <span class="text-gray-600">Emergency Contact:</span>
-                        <span class="font-semibold" id="summaryEmergency">-</span>
-                      </div>
-                      <div class="flex justify-between py-2 border-b border-gray-200">
-                        <span class="text-gray-600">Special Requests:</span>
-                        <span class="font-semibold" id="summaryRequests">-</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Terms and Conditions -->
-              <div class="form-group">
-                <div class="bg-white border border-gray-200 rounded-xl p-6">
-                  <div class="flex items-start space-x-4">
-                    <input type="checkbox" id="termsAccepted" name="termsAccepted" required
-                      class="mt-1 w-5 h-5 text-brand-600 border-gray-300 rounded focus:ring-2 focus:ring-brand-500">
-                    <label for="termsAccepted" class="text-gray-700 leading-relaxed">
-                      <span class="font-semibold">I agree to the terms and conditions</span> of DNG Transport. I
-                      understand that bookings are subject to availability and I will be contacted for confirmation. *
-                    </label>
-                  </div>
-                  <div class="text-red-500 text-sm mt-2 hidden" id="termsError">Please accept the terms and conditions
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Navigation Buttons -->
-          <div
-            class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mt-12 pt-8 border-t border-gray-200 space-y-4 sm:space-y-0">
-            <button type="button" id="prevBtn"
-              class="hidden px-6 sm:px-8 py-3 sm:py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors flex items-center justify-center space-x-2 touch-manipulation">
-              <i data-lucide="arrow-left" class="w-5 h-5"></i>
-              <span>Previous</span>
-            </button>
-
-            <button type="button" id="nextBtn"
-              class="ml-auto px-6 sm:px-8 py-4 bg-brand-600 text-white rounded-xl font-semibold hover:bg-brand-700 transition-colors flex items-center justify-center space-x-2 text-lg touch-manipulation">
-              <span>Continue</span>
-              <i data-lucide="arrow-right" class="w-5 h-5"></i>
-            </button>
-
-            <button type="submit" id="submitBtn"
-              class="hidden ml-auto px-6 sm:px-8 py-4 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 text-lg touch-manipulation">
-              <i data-lucide="send" class="w-5 h-5"></i>
-              <span>Submit Booking</span>
-            </button>
-          </div>
-
-          <!-- Loading State -->
-          <div id="loadingState" class="hidden text-center py-8">
-            <div class="inline-flex items-center space-x-3 text-brand-600">
-              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-600"></div>
-              <span class="font-semibold text-lg">Submitting your booking...</span>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <!-- Contact Information -->
-      <div class="mt-8 sm:mt-12 bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
-        <div class="text-center">
-          <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-4">Need Help? Contact Us</h3>
-          <div class="flex flex-col space-y-3 text-gray-600">
-            <a href="tel:0598106751"
-              class="flex items-center justify-center space-x-3 hover:text-brand-600 transition-colors font-medium py-2 touch-manipulation">
-              <div class="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
-                <i data-lucide="phone" class="w-4 h-4 text-brand-600"></i>
-              </div>
-              <span>0598106751</span>
-            </a>
-            <a href="tel:0595223640"
-              class="flex items-center justify-center space-x-3 hover:text-brand-600 transition-colors font-medium py-2 touch-manipulation">
-              <div class="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
-                <i data-lucide="phone" class="w-4 h-4 text-brand-600"></i>
-              </div>
-              <span>0595223640</span>
-            </a>
-            <a href="tel:0246962314"
-              class="flex items-center justify-center space-x-3 hover:text-brand-600 transition-colors font-medium py-2 touch-manipulation">
-              <div class="w-8 h-8 bg-brand-100 rounded-full flex items-center justify-center">
-                <i data-lucide="phone" class="w-4 h-4 text-brand-600"></i>
-              </div>
-              <span>0246962314</span>
-            </a>
-          </div>
-        </div>
-      </div>
+        <button type="submit" class="btn-pay">Book Trip</button>
+      </form>
     </div>
   </main>
 
+  <!-- Confirmation Modal -->
+  <div id="confirmOverlay" aria-modal="true" role="dialog">
+    <div class="confirm-card">
+      <div class="confirm-header">
+        <h3 style="margin:0; font-size:1.05rem;" id="bookingRefTitle">Booking Created • Reference</h3>
+      </div>
+      <div class="confirm-body" id="bookingDetails">
+        <!-- Content will be injected dynamically -->
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" id="closeModalBtn">Close</button>
+        <a class="btn btn-whatsapp" id="whatsappLink" target="_blank" rel="noopener">Send payment screenshot on WhatsApp</a>
+        <button class="btn btn-primary" id="copyRefBtn">Copy reference number</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="contact">
+      <span>📍 University of Cape Coast</span>
+      <span>🚌 Transiting you back home</span>
+      <span>☎ Call/WhatsApp: 0598106751 / 0595223640 / 0246962314</span>
+    </div>
+    <p>© 2025 DNG TRANSPORT BROKERAGE. All rights reserved.</p>
+  </footer>
+
   <script>
-    // Initialize Lucide icons
-    lucide.createIcons();
+  document.addEventListener('DOMContentLoaded', () => {
+    // Mobile detection and UI adjustments
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      // Add mobile-specific classes
+      document.querySelector('.container').classList.add('mobile-container');
+      document.querySelectorAll('.form-group input, .form-group select').forEach(el => {
+        el.classList.add('mobile-input');
+      });
+      document.querySelector('.btn-pay').classList.add('mobile-btn');
+    }
 
-    // Global variables
-    let currentStep = 1;
-    const totalSteps = 4;
-    let pricingData = {};
-    let availableDatesMap = {}; // Store available dates for each destination
+    // Set min date for travel date
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Pre-select destination and date from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const destination = urlParams.get('destination');
+    const dateParam = urlParams.get('date');
+    
+    if (destination) {
+      document.getElementById('destination').value = destination;
+    }
+    
+    if (dateParam) {
+      document.getElementById('travelDate').value = dateParam;
+      // Update selected date option
+      document.querySelectorAll('.date-option').forEach(option => {
+        option.classList.remove('selected');
+        if (option.dataset.date === dateParam) {
+          option.classList.add('selected');
+        }
+      });
+    }
+    
+    // Ensure modal is hidden on page load
+    const modal = document.getElementById('confirmOverlay');
+    if (modal) modal.style.display = 'none';
+    
+    // Close modal function
+    function closeModal() {
+      if (modal) modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
 
-    // Step data
-    const stepData = {
-      1: {
-        title: "Travel Details",
-        description: "Select your destination and travel preferences"
-      },
-      2: {
-        title: "Personal Information",
-        description: "Tell us about yourself"
-      },
-      3: {
-        title: "Emergency Contact",
-        description: "Safety first - provide emergency contact details"
-      },
-      4: {
-        title: "Review & Submit",
-        description: "Review your booking details and confirm"
-      }
-    };
+    // Close modal button
+    const closeBtn = document.getElementById('closeModalBtn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeModal);
+    }
 
-    // DOM elements
+    // Copy reference button
+    const copyRefBtn = document.getElementById('copyRefBtn');
+    if (copyRefBtn) {
+      copyRefBtn.addEventListener('click', () => {
+        const ref = document.getElementById('bookingRefTitle').textContent.split('•')[1]?.trim();
+        if (ref) {
+          navigator.clipboard.writeText(ref);
+          // Mobile-friendly feedback
+          const originalText = copyRefBtn.textContent;
+          copyRefBtn.textContent = '✓ Copied!';
+          setTimeout(() => {
+            copyRefBtn.textContent = originalText;
+          }, 2000);
+        }
+      });
+    }
+
+    // DNG Booking Logic + MoMo Confirmation + Backend Save
+    const API_BOOKINGS_URL = '/api/bookings'; // backend endpoint
+    const MOMO_NUMBER_DISPLAY = '0598106751';
+    const MOMO_NUMBER_INTL = '233598106751';
+    const MOMO_NAME = 'EMMANUEL ODURO WOOD';
+    const WHATSAPP_NUMBER_LINK = `https://wa.me/+233598106751`;
+
+    // Elements
     const form = document.getElementById('bookingForm');
     const destinationSelect = document.getElementById('destination');
-    const sprinterPriceEl = document.getElementById('sprinterPrice');
-    const vipPriceEl = document.getElementById('vipPrice');
-    const vipBusOption = document.getElementById('vipBusOption');
-    const vipRadio = document.getElementById('vip');
-    const vipLabel = document.getElementById('vipLabel');
-    const submitBtn = document.getElementById('submitBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const loadingState = document.getElementById('loadingState');
-    const successMessage = document.getElementById('successMessage');
-    const errorMessage = document.getElementById('errorMessage');
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const stepTitle = document.getElementById('stepTitle');
-    const stepDescription = document.getElementById('stepDescription');
-    const stepProgress = document.getElementById('stepProgress');
+    const pickupSelect = document.getElementById('pickupPoint');
+    const priceEl = document.getElementById('price');
+    const sprinterCard = document.getElementById('sprinterOption');
+    const vipCard = document.getElementById('vipOption');
+    const dateOptions = document.querySelectorAll('.date-option');
 
-    // Google Apps Script Web App URL - DNG Transport Booking System
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8v2c1OFzepBk6Ue2hxqAuHULvLZLW6ok_7FE-gXnmCdA51mscFaNqRF1sAeYlSEhS/exec';
-
-    // Initialize
-    document.getElementById('travelDate').min = new Date().toISOString().split('T')[0];
-    loadPricingData();
-
-    // Load pricing data from JSON
-    async function loadPricingData() {
-      try {
-        const response = await fetch('pricing.json');
-        const data = await response.json();
-
-        // Transform data for easier access and store available dates
-        data.destinations.forEach(dest => {
-          pricingData[dest.destination] = {
-            sprinter: dest.sprinterBus,
-            vip: dest.vipAvailable ? dest.vipBus : false,
-            region: dest.region,
-            duration: dest.duration
-          };
-          // Store available dates for each destination
-          availableDatesMap[dest.destination] = dest.availableDates || [];
-        });
-
-        // Populate destination dropdown
-        populateDestinations(data.destinations);
-
-        // Check for pre-selected destination
-        const urlParams = new URLSearchParams(window.location.search);
-        const preSelectedDestination = urlParams.get('destination');
-
-        if (preSelectedDestination) {
-          destinationSelect.value = preSelectedDestination;
-          updateBusOptions();
-          updateAvailableDates(); // Update available dates when destination is pre-selected
-        }
-
-      } catch (error) {
-        console.error('Error loading pricing data:', error);
-        // Fallback to hardcoded data if JSON fails to load
-        pricingData = {
-          'Kumasi': { sprinter: 117, vip: 150 },
-          'Tema': { sprinter: 91, vip: false },
-          'Ashaiman': { sprinter: 91, vip: false },
-          'Madina/Adenta': { sprinter: 86, vip: false },
-          'Kaneshie/Circle': { sprinter: 77, vip: 117 },
-          'Kasoa': { sprinter: 72, vip: false },
-          'Koforidua': { sprinter: 152, vip: false },
-          'Akim Oda': { sprinter: 86, vip: false },
-          'Pokuase/Amasaman': { sprinter: 81, vip: false }
-        };
-        populateFallbackDestinations();
-      }
-    }
-
-    // Populate destination dropdown from JSON data
-    function populateDestinations(destinations) {
-      const select = document.getElementById('destination');
-
-      // Clear existing options (except the first placeholder)
-      while (select.children.length > 1) {
-        select.removeChild(select.lastChild);
-      }
-
-      // Sort destinations alphabetically
-      destinations.sort((a, b) => a.destination.localeCompare(b.destination));
-
-      // Add options
-      destinations.forEach(dest => {
-        const option = document.createElement('option');
-        option.value = dest.destination;
-        option.textContent = dest.destination;
-        option.dataset.region = dest.region;
-        option.dataset.duration = dest.duration;
-        select.appendChild(option);
-      });
-    }
-
-    // Fallback function for hardcoded destinations
-    function populateFallbackDestinations() {
-      const destinations = Object.keys(pricingData);
-      const select = document.getElementById('destination');
-
-      destinations.forEach(dest => {
-        const option = document.createElement('option');
-        option.value = dest;
-        option.textContent = dest;
-        select.appendChild(option);
-      });
-    }
-
-    // Mobile menu toggle
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-      const icon = mobileMenuBtn.querySelector('i');
-      if (mobileMenu.classList.contains('hidden')) {
-        icon.setAttribute('data-lucide', 'menu');
-      } else {
-        icon.setAttribute('data-lucide', 'x');
-      }
-      lucide.createIcons();
+    const currency = new Intl.NumberFormat('en-GH', {
+      style: 'currency',
+      currency: 'GHS',
+      minimumFractionDigits: 2
     });
 
-    // Update step display
-    function updateStep(step) {
-      // Hide all steps
-      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    const destinationCodes = {
+      'Kumasi': 'KUM',
+      'Tema': 'TM',
+      'Ashaiman': 'ASH',
+      'Madina/Adenta': 'MAD',
+      'Kaneshie/Circle': 'KAN',
+      'Koforidua': 'KOF',
+      'Akim Oda': 'AOD',
+      'Pokuase/Amasaman': 'POK'
+    };
 
-      // Show current step
-      document.getElementById(`step${step}`).classList.add('active');
+    const lsGet = (k, f) => { try { return JSON.parse(localStorage.getItem(k)) ?? f; } catch { return f; } };
+    const lsSet = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+    const defaultCounters = Object.fromEntries(Object.keys(destinationCodes).map(d => [d, { sprinter: 0, vip: 0 }]));
+    const bookingCounters = lsGet('dng_booking_counters', defaultCounters);
 
-      // Update step indicators
-      for (let i = 1; i <= totalSteps; i++) {
-        const indicator = document.getElementById(`step${i}Indicator`);
-        if (i < step) {
-          // Completed steps
-          indicator.className = 'w-12 h-12 rounded-full border-2 border-brand-600 bg-brand-600 text-white flex items-center justify-center text-sm font-bold transition-all duration-300';
-          indicator.innerHTML = '<i data-lucide="check" class="w-5 h-5"></i>';
-        } else if (i === step) {
-          // Current step
-          indicator.className = 'w-12 h-12 rounded-full border-2 border-brand-600 bg-brand-600 text-white flex items-center justify-center text-sm font-bold transition-all duration-300';
-          indicator.textContent = i;
-        } else {
-          // Future steps
-          indicator.className = 'w-12 h-12 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-sm font-bold transition-all duration-300';
-          indicator.textContent = i;
-        }
-      }
+    const getCheckedBusType = () => document.querySelector('input[name="busType"]:checked')?.value || 'sprinter';
 
-      // Update progress bar
-      const progressWidth = ((step - 1) / (totalSteps - 1)) * 100;
-      stepProgress.style.width = `${progressWidth}%`;
+    const selectCard = (card) => {
+      document.querySelectorAll('.bus-type-option').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      // Add visual feedback animation
+      card.style.transform = 'scale(0.97)';
+      setTimeout(() => card.style.transform = '', 150);
+      const input = card.querySelector('input[name="busType"]');
+      if (input) input.checked = true;
+    };
 
-      // Update title and description
-      stepTitle.textContent = stepData[step].title;
-      stepDescription.textContent = stepData[step].description;
+    const isVipAvailableFor = (opt) =>
+      !!opt && opt.dataset && opt.dataset.priceVip !== undefined && opt.dataset.priceVip !== '';
 
-      // Update navigation buttons
-      prevBtn.classList.toggle('hidden', step === 1);
-      nextBtn.classList.toggle('hidden', step === totalSteps);
-      submitBtn.classList.toggle('hidden', step !== totalSteps);
-
-      // Update continue button text
-      if (step < totalSteps) {
-        nextBtn.querySelector('span').textContent = step === 3 ? 'Review Booking' : 'Continue';
-      }
-
-      // Update icons
-      lucide.createIcons();
-    }
-
-    // Step navigation
-    nextBtn.addEventListener('click', () => {
-      if (validateCurrentStep()) {
-        if (currentStep === 3) {
-          updateSummary();
-        }
-        currentStep++;
-        updateStep(currentStep);
-      }
-    });
-
-    prevBtn.addEventListener('click', () => {
-      currentStep--;
-      updateStep(currentStep);
-    });
-
-    // Validate current step
-    function validateCurrentStep() {
-      const errors = {};
-      let isValid = true;
-
-      // Clear previous errors
-      document.querySelectorAll('.text-red-500').forEach(el => el.classList.add('hidden'));
-
-      if (currentStep === 1) {
-        // Validate destination
-        const destination = document.getElementById('destination').value;
-        if (!destination) {
-          errors.destination = 'Please select your destination';
-          isValid = false;
-        }
-
-        // Validate travel date
-        const travelDate = document.getElementById('travelDate').value;
-        if (!travelDate) {
-          errors.travelDate = 'Please select your travel date';
-          isValid = false;
-        } else {
-          const selectedDate = new Date(travelDate);
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          if (selectedDate < today) {
-            errors.travelDate = 'Travel date cannot be in the past';
-            isValid = false;
-          }
-        }
-
-        // Validate bus type
-        const busType = document.querySelector('input[name="busType"]:checked');
-        if (!busType) {
-          errors.busType = 'Please select a bus type';
-          isValid = false;
-        }
-      } else if (currentStep === 2) {
-        // Validate full name
-        const fullName = document.getElementById('fullName').value.trim();
-        if (!fullName) {
-          errors.fullName = 'Please enter your full name';
-          isValid = false;
-        }
-
-        // Validate phone number
-        const phoneNumber = document.getElementById('phoneNumber').value.trim();
-        const phoneRegex = /^[0-9]{10}$/;
-        if (!phoneNumber || !phoneRegex.test(phoneNumber)) {
-          errors.phoneNumber = 'Please enter a valid 10-digit phone number';
-          isValid = false;
-        }
-      } else if (currentStep === 4) {
-        // Validate terms acceptance
-        const termsAccepted = document.getElementById('termsAccepted').checked;
-        if (!termsAccepted) {
-          errors.terms = 'Please accept the terms and conditions';
-          isValid = false;
-        }
-      }
-
-      // Display errors
-      Object.keys(errors).forEach(field => {
-        const errorEl = document.getElementById(field === 'terms' ? 'termsError' : `${field}Error`);
-        if (errorEl) {
-          errorEl.textContent = errors[field];
-          errorEl.classList.remove('hidden');
-        }
-      });
-
-      return isValid;
-    }
-
-    // Update summary
-    function updateSummary() {
-      const destination = document.getElementById('destination').value;
-      const travelDate = document.getElementById('travelDate').value;
-      const busType = document.querySelector('input[name="busType"]:checked')?.value;
-      const fullName = document.getElementById('fullName').value;
-      const phoneNumber = document.getElementById('phoneNumber').value;
-      const emergencyName = document.getElementById('emergencyName').value;
-      const emergencyPhone = document.getElementById('emergencyPhone').value;
-      const specialRequests = document.getElementById('specialRequests').value;
-
-      document.getElementById('summaryDestination').textContent = destination || '-';
-      document.getElementById('summaryDate').textContent = travelDate ? new Date(travelDate).toLocaleDateString() : '-';
-      document.getElementById('summaryBusType').textContent = busType === 'vip' ? 'VIP Bus' : 'Sprinter Bus';
-      document.getElementById('summaryName').textContent = fullName || '-';
-      document.getElementById('summaryPhone').textContent = phoneNumber || '-';
-      document.getElementById('summaryEmergency').textContent =
-        emergencyName ? `${emergencyName} (${emergencyPhone || 'No phone'})` : 'Not provided';
-      document.getElementById('summaryRequests').textContent = specialRequests || 'None';
-
-      if (pricingData[destination] && busType) {
-        const price = pricingData[destination][busType];
-        document.getElementById('summaryPrice').textContent = `GHS ${price}`;
-      }
-    }
-
-    // Destination change handler
-    destinationSelect.addEventListener('change', () => {
-      updateBusOptions();
-      updateAvailableDates();
-    });
-
-    function updateBusOptions() {
-      const selectedDestination = destinationSelect.value;
-
-      if (selectedDestination && pricingData[selectedDestination]) {
-        const pricing = pricingData[selectedDestination];
-
-        // Update Sprinter price
-        sprinterPriceEl.textContent = `GHS ${pricing.sprinter}`;
-
-        // Update VIP option
-        if (pricing.vip) {
-          // VIP available
-          vipPriceEl.textContent = `GHS ${pricing.vip}`;
-          vipPriceEl.nextElementSibling.textContent = 'per seat';
-          vipRadio.disabled = false;
-          vipLabel.classList.remove('cursor-not-allowed', 'opacity-50');
-          vipLabel.classList.add('cursor-pointer', 'hover:border-brand-500', 'peer-checked:border-brand-500', 'peer-checked:bg-brand-50', 'hover:shadow-md');
-        } else {
-          // VIP not available
-          vipPriceEl.textContent = 'Not Available';
-          vipPriceEl.nextElementSibling.textContent = 'for this route';
-          vipRadio.disabled = true;
-          vipRadio.checked = false;
-          vipLabel.classList.add('cursor-not-allowed', 'opacity-50');
-          vipLabel.classList.remove('cursor-pointer', 'hover:border-brand-500', 'peer-checked:border-brand-500', 'peer-checked:bg-brand-50', 'hover:shadow-md');
-
-          // Auto-select Sprinter if VIP was selected
-          document.getElementById('sprinter').checked = true;
-        }
-      } else {
-        // Reset prices
-        sprinterPriceEl.textContent = 'GHS 0';
-        vipPriceEl.textContent = 'Not Available';
-        vipPriceEl.nextElementSibling.textContent = 'for this route';
-        vipRadio.disabled = true;
-        vipRadio.checked = false;
-        vipLabel.classList.add('cursor-not-allowed', 'opacity-50');
-        vipLabel.classList.remove('cursor-pointer', 'hover:border-brand-500', 'peer-checked:border-brand-500', 'peer-checked:bg-brand-50', 'hover:shadow-md');
-      }
-    }
-
-    // Update available dates based on selected destination
-    function updateAvailableDates() {
-      const selectedDestination = destinationSelect.value;
-      const travelDateInput = document.getElementById('travelDate');
-      const travelDateHint = document.getElementById('travelDateHint');
-
-      if (selectedDestination && availableDatesMap[selectedDestination]) {
-        const availableDates = availableDatesMap[selectedDestination];
-
-        // Enable the date input and hide hint
-        travelDateInput.disabled = false;
-        if (travelDateHint) travelDateHint.style.display = 'none';
-
-        // Clear current value if it's not in available dates
-        const currentValue = travelDateInput.value;
-        if (currentValue && !availableDates.includes(currentValue)) {
-          travelDateInput.value = '';
-        }
-
-        // Set min and max dates based on available dates
-        if (availableDates.length > 0) {
-          // Filter out past dates
-          const today = new Date().toISOString().split('T')[0];
-          const futureDates = availableDates.filter(date => date >= today);
-
-          if (futureDates.length > 0) {
-            const sortedDates = [...futureDates].sort();
-            travelDateInput.min = sortedDates[0];
-            travelDateInput.max = sortedDates[sortedDates.length - 1];
+    // Update date options based on destination
+    function updateDateOptions() {
+      const destination = destinationSelect.value;
+      const isSpecialRoute = destination === 'Kumasi' || destination === 'Kaneshie/Circle';
+      
+      dateOptions.forEach(option => {
+        if (option.dataset.date === '2025-08-17') {
+          if (isSpecialRoute) {
+            option.classList.remove('disabled');
+            option.title = '';
           } else {
-            // No future dates available, disable input
-            travelDateInput.disabled = true;
-            travelDateInput.value = '';
-            showAvailableDatesInfo(availableDates);
-            return;
+            option.classList.add('disabled');
+            option.title = 'Only available for Kumasi and Kaneshie/Circle';
           }
-
-          // Add custom validation for available dates
-          const validateDate = function () {
-            const selectedDate = travelDateInput.value;
-            const dateError = document.getElementById('travelDateError');
-            const today = new Date().toISOString().split('T')[0];
-
-            if (selectedDate) {
-              // Check if date is in the past
-              if (selectedDate < today) {
-                travelDateInput.setCustomValidity('Cannot select a date in the past');
-                dateError.textContent = 'Please select a future date';
-                dateError.classList.remove('hidden');
-                return false;
-              }
-
-              // Check if date is in available dates
-              if (!availableDates.includes(selectedDate)) {
-                travelDateInput.setCustomValidity('Please select from available dates');
-                dateError.textContent = `Available dates: ${availableDates.map(date => {
-                  const dateObj = new Date(date);
-                  return dateObj.toLocaleDateString('en-GB', {
-                    weekday: 'short',
-                    day: 'numeric',
-                    month: 'short'
-                  });
-                }).join(', ')}`;
-                dateError.classList.remove('hidden');
-                return false;
-              }
-
-              // Date is valid
-              travelDateInput.setCustomValidity('');
-              dateError.classList.add('hidden');
-              return true;
-            }
-
-            return false;
-          };
-
-          // Remove existing event listeners to prevent duplicates
-          travelDateInput.removeEventListener('input', validateDate);
-          travelDateInput.removeEventListener('change', validateDate);
-
-          // Add validation event listeners
-          travelDateInput.addEventListener('input', validateDate);
-          travelDateInput.addEventListener('change', validateDate);
-
-          // Show available dates info
-          showAvailableDatesInfo(availableDates);
         }
-      } else {
-        // No destination selected, disable date input and show hint
-        travelDateInput.disabled = true;
-        travelDateInput.value = '';
-        travelDateInput.min = new Date().toISOString().split('T')[0];
-        if (travelDateHint) travelDateHint.style.display = 'block';
-        hideAvailableDatesInfo();
+      });
+      
+      // If 17th is selected but now disabled, switch to 16th
+      if (!isSpecialRoute && document.getElementById('travelDate').value === '2025-08-17') {
+        document.getElementById('travelDate').value = '2025-08-16';
+        dateOptions.forEach(option => {
+          option.classList.remove('selected');
+          if (option.dataset.date === '2025-08-16') {
+            option.classList.add('selected');
+            // Visual feedback for auto-selection
+            option.style.backgroundColor = '#e3eaf7';
+            setTimeout(() => option.style.backgroundColor = '', 1000);
+          }
+        });
       }
     }
 
-    // Show available dates information
-    function showAvailableDatesInfo(availableDates) {
-      // Remove existing info if any
-      const existingInfo = document.querySelector('.available-dates-info');
-      if (existingInfo) {
-        existingInfo.remove();
+    function updateBusTypeAvailability() {
+      const opt = destinationSelect?.selectedOptions?.[0];
+      const hasVIP = isVipAvailableFor(opt);
+      
+      // Get selected date
+      const travelDate = document.getElementById('travelDate').value;
+      
+      // VIP only available on Saturday for specific routes
+      const isSpecialRoute = destinationSelect.value === 'Kumasi' || destinationSelect.value === 'Kaneshie/Circle';
+      const isSaturday = travelDate === '2025-08-16';
+      
+      if (vipCard) {
+        if (hasVIP && isSpecialRoute) {
+          vipCard.style.display = isSaturday ? 'block' : 'none';
+          
+          // If VIP was selected but not available, switch to Sprinter
+          if (!isSaturday && vipCard.querySelector('input[name="busType"]').checked) {
+            selectCard(sprinterCard);
+            // Show mobile toast notification
+            if (isMobile) {
+              const toast = document.createElement('div');
+              toast.textContent = 'VIP only available on Saturday';
+              toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.7);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 25px;
+                z-index: 1000;
+                font-size: 14px;
+              `;
+              document.body.appendChild(toast);
+              setTimeout(() => toast.remove(), 3000);
+            }
+          }
+        } else {
+          vipCard.style.display = hasVIP ? 'block' : 'none';
+        }
+        
+        const vipInput = vipCard.querySelector('input[name="busType"]');
+        if (vipInput) vipInput.disabled = !hasVIP || (isSpecialRoute && !isSaturday);
       }
+    }
 
-      // Filter out past dates
-      const today = new Date().toISOString().split('T')[0];
-      const futureDates = availableDates.filter(date => date >= today);
-
-      if (futureDates.length === 0) {
-        // Show message that no dates are available
-        const travelDateInput = document.getElementById('travelDate');
-        const infoDiv = document.createElement('div');
-        infoDiv.className = 'available-dates-info mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg';
-        infoDiv.innerHTML = `
-          <div class="flex items-center space-x-2">
-            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
-            <p class="text-sm font-medium text-amber-800">No upcoming dates available for this destination. Please contact us for more information.</p>
-          </div>
-        `;
-        travelDateInput.parentNode.appendChild(infoDiv);
-        lucide.createIcons();
+    function updatePrice() {
+      const opt = destinationSelect?.selectedOptions?.[0];
+      if (!opt || !opt.value) {
+        priceEl.textContent = 'Price: GHS 0.00';
         return;
       }
+      const busType = getCheckedBusType();
 
-      // Create and insert available dates info
-      const travelDateInput = document.getElementById('travelDate');
-      const infoDiv = document.createElement('div');
-      infoDiv.className = 'available-dates-info mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg';
-      infoDiv.innerHTML = `
-        <div class="flex items-start space-x-2">
-          <i data-lucide="info" class="w-4 h-4 text-blue-600 mt-0.5"></i>
-          <div>
-            <p class="text-sm font-medium text-blue-800 mb-1">Available travel dates:</p>
-            <div class="flex flex-wrap gap-2">
-              ${futureDates.map(date => {
-        const dateObj = new Date(date);
-        const formattedDate = dateObj.toLocaleDateString('en-GB', {
-          weekday: 'short',
-          day: 'numeric',
-          month: 'short'
-        });
-        return `<span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full cursor-pointer hover:bg-blue-200 transition-colors" onclick="document.getElementById('travelDate').value='${date}'; document.getElementById('travelDate').dispatchEvent(new Event('change'))">${formattedDate}</span>`;
-      }).join('')}
-            </div>
-          </div>
+      let price = 0;
+      if (busType === 'vip' && opt.dataset.priceVip) {
+        price = Number(opt.dataset.priceVip);
+      } else if (busType === 'sprinter' && opt.dataset.priceSprinter) {
+        price = Number(opt.dataset.priceSprinter);
+      } else if (opt.dataset.price) {
+        price = Number(opt.dataset.price);
+      }
+      if (!Number.isFinite(price)) price = 0;
+
+      priceEl.textContent = `Price: ${currency.format(price)}`;
+      priceEl.style.fontSize = '1.2rem';
+      priceEl.style.color = '#1e3c72';
+      priceEl.style.transition = 'all 0.3s ease';
+      setTimeout(() => {
+        priceEl.style.fontSize = '';
+      }, 300);
+      
+      return price;
+    }
+
+    function validatePhoneGH(phoneRaw) {
+      const p = (phoneRaw || '').replace(/\s+/g, '');
+      return /^0\d{9}$/.test(p) || /^233\d{9}$/.test(p);
+    }
+
+    function nextBookingNumber(destination, busType) {
+      bookingCounters[destination] ||= { sprinter: 0, vip: 0 };
+      bookingCounters[destination][busType] = (bookingCounters[destination][busType] || 0) + 1;
+      const count = bookingCounters[destination][busType];
+      const prefix = busType === 'vip' ? '50' : '10';
+      const seatIndex = Math.min(count, busType === 'vip' ? 50 : 21);
+      const code = `${destinationCodes[destination]}/${prefix}${seatIndex}-${Date.now().toString().slice(-5)}`;
+      lsSet('dng_booking_counters', bookingCounters);
+      return code;
+    }
+
+    function buildWaMessage(b) {
+      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = new Date(b.travelDate).toLocaleDateString('en-GH', dateOptions);
+      
+      const lines = [
+        `Hello, I just made a booking and will send my MoMo screenshot.`,
+        `Name: ${b.fullName}`,
+        `Phone: ${b.phone}`,
+        `Destination: ${b.destination}`,
+        `Pickup: ${b.pickupPoint}`,
+        `Travel Date: ${formattedDate}`,
+        `Bus: ${b.busType === 'vip' ? 'VIP' : 'Sprinter'}`,
+        `Amount: ${currency.format(b.price)}`,
+        `Reference: ${b.bookingNumber}`,
+        ``,
+        `I’ll attach the payment screenshot here.`
+      ];
+      return encodeURIComponent(lines.join('\n'));
+    }
+
+    function showConfirmation(booking) {
+      const overlay = document.getElementById('confirmOverlay');
+      const title = document.getElementById('bookingRefTitle');
+      const details = document.getElementById('bookingDetails');
+      const whatsappLink = document.getElementById('whatsappLink');
+
+      if (!overlay || !title || !details || !whatsappLink) return;
+
+      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = new Date(booking.travelDate).toLocaleDateString('en-GH', dateOptions);
+      
+      title.textContent = `Booking Created • ${booking.bookingNumber}`;
+      details.innerHTML = `
+        <p>Hi ${booking.fullName}, your booking has been recorded.</p>
+        <ul>
+          <li><strong>Destination:</strong> ${booking.destination}</li>
+          <li><strong>Pickup Point:</strong> ${booking.pickupPoint}</li>
+          <li><strong>Travel Date:</strong> ${formattedDate}</li>
+          <li><strong>Bus Type:</strong> ${booking.busType === 'vip' ? 'VIP Bus' : 'Sprinter Bus'}</li>
+          <li><strong>Amount:</strong> ${currency.format(booking.price)}</li>
+          <li><strong>Reference:</strong> <code>${booking.bookingNumber}</code></li>
+          <li><strong>Payer:</strong> ${booking.payerName}</li>
+          ${booking.emergencyName ? `<li><strong>Emergency Contact:</strong> ${booking.emergencyName} (${booking.emergencyPhone || 'No phone'})</li>` : ''}
+        </ul>
+        <div style="background:#f9fbff; border:1px solid #e5e7eb; border-radius:10px; padding:12px; margin-top:12px;">
+          <p><strong>Mobile Money Payment (Manual)</strong></p>
+          <ol>
+            <li>Send ${currency.format(booking.price)} to <strong>${MOMO_NUMBER_DISPLAY}</strong> (${MOMO_NAME}).</li>
+            <li>Please use: <strong>${booking.payerName}</strong> as the payer name.</li>
+            <li>Keep the MoMo SMS as receipt. Then send the screenshot of MoMo confirmation message on WhatsApp.</li>
+          </ol>
+          <p style="color:#6b7280; font-size:0.9rem;">Support: 0598106751 • 0595223640 • 0246962314</p>
         </div>
       `;
 
-      travelDateInput.parentNode.appendChild(infoDiv);
-
-      // Re-initialize Lucide icons for the new icon
-      lucide.createIcons();
+      whatsappLink.href = `${WHATSAPP_NUMBER_LINK}?text=${buildWaMessage(booking)}`;
+      
+      // Mobile-friendly modal adjustments
+      if (isMobile) {
+        overlay.style.alignItems = 'flex-end';
+        overlay.style.justifyContent = 'flex-end';
+        document.querySelector('.confirm-card').style.maxWidth = '100%';
+        document.querySelector('.confirm-card').style.borderRadius = '20px 20px 0 0';
+      }
+      
+      overlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
     }
 
-    // Hide available dates information
-    function hideAvailableDatesInfo() {
-      const existingInfo = document.querySelector('.available-dates-info');
-      if (existingInfo) {
-        existingInfo.remove();
-      }
-    }
-
-    // Form submission
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      if (!validateCurrentStep()) {
-        return;
-      }
-
-      // Show loading state
-      submitBtn.style.display = 'none';
-      prevBtn.style.display = 'none';
-      loadingState.classList.remove('hidden');
-
-      // Prepare form data
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-
-      // Add pricing information
-      const destination = data.destination;
-      const busType = data.busType;
-      if (pricingData[destination]) {
-        data.price = pricingData[destination][busType];
-        data.currency = 'GHS';
-      }
-
-      // Add timestamp
-      data.timestamp = new Date().toISOString();
-
-      try {
-        // Submit to Google Sheets via Google Apps Script
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          redirect: 'follow',
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
-          body: JSON.stringify(data)
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+    // Date selection with visual feedback
+    document.querySelectorAll('.date-option').forEach(option => {
+      option.addEventListener('click', () => {
+        // Skip if option is disabled
+        if (option.classList.contains('disabled')) {
+          // Visual feedback for disabled option
+          option.style.transform = 'translateX(5px)';
+          setTimeout(() => option.style.transform = '', 300);
+          return;
         }
-
-        const result = await response.json();
-
-        if (result.success) {
-          showSuccess(result.bookingReference);
-        } else {
-          throw new Error(result.error || 'Submission failed');
-        }
-
-      } catch (error) {
-        console.error('Error submitting form:', error);
-        showError('There was an error submitting your booking. Please try again or contact us directly.');
-      } finally {
-        // Hide loading state
-        loadingState.classList.add('hidden');
-      }
-    });
-
-    function showSuccess(bookingReference) {
-      // Update success message with booking reference if provided
-      if (bookingReference) {
-        const successContent = document.querySelector('#successMessage div div:last-child');
-        successContent.innerHTML = `
-          <h3 class="font-bold text-green-800">Booking Submitted Successfully!</h3>
-          <p class="text-green-700">Your booking reference is: <strong class="font-bold text-green-900">${bookingReference}</strong></p>
-          <p class="text-green-600 text-sm mt-2">Thank you for choosing DNG Transport. We'll contact you soon to confirm your booking.</p>
-        `;
-      }
-
-      successMessage.classList.remove('hidden');
-      form.reset();
-      updateBusOptions();
-      currentStep = 1;
-      updateStep(currentStep);
-      // Scroll to success message
-      successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    function showError(message) {
-      document.getElementById('errorText').textContent = message;
-      errorMessage.classList.remove('hidden');
-      submitBtn.style.display = 'flex';
-      prevBtn.style.display = 'flex';
-      // Scroll to error message
-      errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // Real-time validation
-    document.getElementById('fullName').addEventListener('input', (e) => {
-      if (e.target.value.trim()) {
-        document.getElementById('fullNameError').classList.add('hidden');
-      }
-    });
-
-    document.getElementById('phoneNumber').addEventListener('input', (e) => {
-      const phoneRegex = /^[0-9]{10}$/;
-      if (phoneRegex.test(e.target.value.trim())) {
-        document.getElementById('phoneNumberError').classList.add('hidden');
-      }
-    });
-
-    document.getElementById('destination').addEventListener('change', (e) => {
-      if (e.target.value) {
-        document.getElementById('destinationError').classList.add('hidden');
-      }
-    });
-
-    document.getElementById('travelDate').addEventListener('change', (e) => {
-      if (e.target.value) {
-        document.getElementById('travelDateError').classList.add('hidden');
-      }
-    });
-
-    document.querySelectorAll('input[name="busType"]').forEach(radio => {
-      radio.addEventListener('change', () => {
-        document.getElementById('busTypeError').classList.add('hidden');
+        
+        document.querySelectorAll('.date-option').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+        document.getElementById('travelDate').value = option.dataset.date;
+        
+        // Visual feedback
+        option.style.backgroundColor = '#d4e0f7';
+        setTimeout(() => option.style.backgroundColor = '', 300);
+        
+        updateBusTypeAvailability();
       });
     });
 
-    document.getElementById('termsAccepted').addEventListener('change', (e) => {
-      if (e.target.checked) {
-        document.getElementById('termsError').classList.add('hidden');
-      }
+    // Touch-friendly card selection
+    document.querySelectorAll('.bus-type-option').forEach(card => {
+      card.setAttribute('tabindex', '0');
+      card.style.cursor = 'pointer';
+      card.style.transition = 'all 0.2s ease';
+      
+      const activate = () => { 
+        selectCard(card); 
+        updatePrice(); 
+      };
+      
+      card.addEventListener('click', activate);
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { 
+          e.preventDefault(); 
+          activate(); 
+        }
+      });
+      
+      // Touch feedback
+      card.addEventListener('touchstart', () => {
+        card.style.transform = 'scale(0.98)';
+      });
+      card.addEventListener('touchend', () => {
+        card.style.transform = '';
+      });
     });
-  </script>
-</body>
 
+    destinationSelect.addEventListener('change', () => {
+      // Set default date for special routes
+      if (destinationSelect.value === 'Kumasi' || destinationSelect.value === 'Kaneshie/Circle') {
+        document.getElementById('travelDate').value = '2025-08-16';
+        document.querySelectorAll('.date-option').forEach(option => {
+          option.classList.remove('selected');
+          if (option.dataset.date === '2025-08-16') {
+            option.classList.add('selected');
+          }
+        });
+      }
+      
+      updateDateOptions();
+      updateBusTypeAvailability();
+      updatePrice();
+    });
+
+    // Add input focus effects for mobile
+    document.querySelectorAll('input, select').forEach(input => {
+      input.addEventListener('focus', () => {
+        input.style.borderColor = '#1e3c72';
+        input.style.boxShadow = '0 0 0 2px rgba(30, 60, 114, 0.2)';
+      });
+      
+      input.addEventListener('blur', () => {
+        input.style.borderColor = '#d1d5db';
+        input.style.boxShadow = '';
+      });
+    });
+
+    // Initialize
+    updateDateOptions();
+    const initiallyChecked = document.querySelector('.bus-type-option input[name="busType"]:checked');
+    if (initiallyChecked) selectCard(initiallyChecked.closest('.bus-type-option'));
+    updateBusTypeAvailability();
+    updatePrice();
+
+    // Form submission with loading state
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const submitBtn = document.querySelector('.btn-pay');
+      const originalBtnText = submitBtn.textContent;
+      
+      // Show loading state
+      submitBtn.textContent = 'Processing...';
+      submitBtn.disabled = true;
+
+      const fullName = (document.getElementById('fullName').value || '').trim();
+      const phone = (document.getElementById('phone').value || '').trim();
+      const payerName = (document.getElementById('payerName').value || '').trim();
+      const destination = destinationSelect.value;
+      const pickupPoint = pickupSelect.value;
+      const travelDate = document.getElementById('travelDate').value;
+      const emergencyName = document.getElementById('emergencyName').value;
+      const emergencyPhone = document.getElementById('emergencyPhone').value;
+      const busType = getCheckedBusType();
+      const price = updatePrice() || 0;
+
+      // Validation
+      let isValid = true;
+      if (!fullName || !phone || !payerName || !destination || !pickupPoint || !travelDate) {
+        isValid = false;
+        alert('Please complete all required fields.');
+      } else if (!validatePhoneGH(phone)) {
+        isValid = false;
+        alert('Enter a valid Ghana phone number (e.g., 059XXXXXXX or 23359XXXXXXX).');
+      } else if (price <= 0) {
+        isValid = false;
+        alert('Please select a valid destination to get the correct price.');
+      }
+
+      if (!isValid) {
+        submitBtn.textContent = originalBtnText;
+        submitBtn.disabled = false;
+        return;
+      }
+
+      const bookingNumber = nextBookingNumber(destination, busType);
+      const booking = {
+        fullName,
+        phone,
+        payerName,
+        destination,
+        pickupPoint,
+        travelDate,
+        emergencyName,
+        emergencyPhone,
+        busType,
+        price,
+        bookingNumber,
+        createdAt: new Date().toISOString(),
+        source: 'web'
+      };
+
+      // Try to persist server-side
+      try {
+        await fetch(API_BOOKINGS_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(booking)
+        });
+      } catch (err) {
+        console.warn('Booking not saved to server:', err);
+      }
+
+      // Clear the form & show confirmation
+      form.reset();
+      selectCard(sprinterCard);
+      updateBusTypeAvailability();
+      updatePrice();
+      showConfirmation(booking);
+      
+      // Restore button state
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
+    });
+  });
+</script>
+</body>
 </html>
