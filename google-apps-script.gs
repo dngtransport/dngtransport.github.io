@@ -5,7 +5,7 @@
 
 // Configuration
 const SHEET_ID = '1bYFCkDn6OMfBfDXS0VP8ulOa91cknvnChs95_qwhCk0';
-const SHEET_NAME = 'Bookings';
+const SHEET_NAME = 'dngtransport';
 
 // Minimal Brand Colors - Professional Design
 const BRAND_COLORS = {
@@ -56,9 +56,9 @@ function createBookingSheet() {
       "Phone",
       "Destination",
       "Travel Date",
+      "Pickup Point",
       "Bus Type",
-      "Price",
-      "Special Requests",
+      "Price",      
       "Emergency Contact",
       "Emergency Phone",
       "Status",
@@ -128,7 +128,7 @@ function setupColumnFormatting(sheet, headerCount) {
   sheet.getRange('A3:A1000').setHorizontalAlignment('center'); // Timestamp
   sheet.getRange('B3:B1000').setHorizontalAlignment('center'); // Booking ID
   sheet.getRange('D3:E1000').setHorizontalAlignment('left'); // Phone, Destination
-  sheet.getRange('F3:H1000').setHorizontalAlignment('center'); // Date, Bus Type, Price
+  sheet.getRange('F3:H1000').setHorizontalAlignment('center'); // Date, Bus Type, Price, Pickup Point
   sheet.getRange('L3:M1000').setHorizontalAlignment('center'); // Status columns
   
   // Add subtle alternating row colors for better readability
@@ -152,8 +152,6 @@ function addDropdownValidation(sheet) {
   const statusRule = SpreadsheetApp.newDataValidation()
     .requireValueInList([
       'Confirmed',
-      'Pending Confirmation', 
-      'Completed',
       'Cancelled'
     ], true)
     .setAllowInvalid(false)
@@ -166,7 +164,6 @@ function addDropdownValidation(sheet) {
     .requireValueInList([
       'Paid',
       'UnPaid',
-      'Partial',
       'Refunded'
     ], true)
     .setAllowInvalid(false)
@@ -194,7 +191,8 @@ function saveBookingToSheet(booking) {
       booking.fullName || '',
       booking.phoneNumber || '',
       booking.destination || '',
-      booking.travelDate || '',
+      booking.pickup point || '',
+      booking.travelDate === 'Saturday, 16th August' ? 'Saturday, 16th August' : 'Sunday, 17th August',
       booking.busType === 'vip' ? 'VIP' : 'Sprinter',
       parseFloat(booking.price) || 0,
       booking.specialRequests || '',
