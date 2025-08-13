@@ -6,8 +6,9 @@
  */
 
 // ======================= Configuration =======================
-const SHEET_ID = '1bYFCkDn6OMfBfDXS0VP8ulOa91cknvnChs95_qwhCk0';
-const SHEET_NAME = 'Bookings';
+    const SHEET_ID = '1bYFCkDn6OMfBfDXS0VP8ulOa91cknvnChs95_qwhCk0';
+    const SHEET_NAME = 'Bookings';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhRyWD-YyvWxQG8qsgLq41gn_iIGcYvGHsmf9jTtBO7LNfkOyARn5QqazRU0UJWqOS/exec';
 
 const HEADERS = [
   'Date & Time',
