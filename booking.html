@@ -160,7 +160,7 @@
     <p>© 2025 DNG TRANSPORT BROKERAGE. All rights reserved.</p>
   </footer>
 
-  <script>
+ <script>
   document.addEventListener('DOMContentLoaded', () => {
     // ====== GOOGLE SCRIPT URL SET HERE ======
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhRyWD-YyvWxQG8qsgLq41gn_iIGcYvGHsmf9jTtBO7LNfkOyARn5QqazRU0UJWqOS/exec';
@@ -269,19 +269,19 @@
       submitBtn.textContent = 'Processing...';
       submitBtn.disabled = true;
 
-       // Collect form data 
-    const fullName = (document.getElementById('fullName').value || '').trim();
-    const phone = (document.getElementById('phone').value || '').trim();
-    const payerName = (document.getElementById('payerName').value || '').trim();
-    const destination = destinationSelect.value;
-    const pickupPoint = pickupSelect.value;
-    const travelDate = document.getElementById('travelDate').value;
-    const emergencyName = document.getElementById('emergencyName').value;
-    const emergencyPhone = document.getElementById('emergencyPhone').value;
-    const busType = getCheckedBusType();
-    const price = updatePrice() || 0;
+      // Collect form data
+      const fullName = (document.getElementById('fullName').value || '').trim();
+      const phone = (document.getElementById('phone').value || '').trim();
+      const payerName = (document.getElementById('payerName').value || '').trim();
+      const destination = destinationSelect.value;
+      const pickupPoint = pickupSelect.value;
+      const travelDate = document.getElementById('travelDate').value;
+      const emergencyName = document.getElementById('emergencyName').value;
+      const emergencyPhone = document.getElementById('emergencyPhone').value;
+      const busType = getCheckedBusType();
+      const price = updatePrice() || 0;
 
-      // Validation (UNCHANGED)
+      // Validation
       let isValid = true;
       if (!fullName || !phone || !payerName || !destination || !pickupPoint || !travelDate) {
         isValid = false;
@@ -301,20 +301,21 @@
       }
 
       // ====== SEND DATA TO GOOGLE SHEETS ======
-       // Build form data object
-    const formData = {
-        fullName,
-        phone,
-        payerName,
-        destination,
-        pickupPoint,
-        travelDate,
-        emergencyName,
-        emergencyPhone,
-        busType,
-        price,
-        bookingReference: 'DNG-' + Date.now() // Simple unique ID
-    };
+      try {
+        // Build form data object with bookingReference
+        const formData = {
+          fullName,
+          phone,
+          destination,
+          pickupPoint,
+          travelDate,
+          busType,
+          price,
+          payerName,
+          emergencyName,
+          emergencyPhone,
+          bookingReference: 'DNG-' + Date.now()  // Added booking reference
+        };
 
         // Send to Google Apps Script
         const response = await fetch(GOOGLE_SCRIPT_URL, {
@@ -595,6 +596,6 @@
     updateBusTypeAvailability();
     updatePrice();
   });
-  </script>
+</script>
 </body>
 </html>
