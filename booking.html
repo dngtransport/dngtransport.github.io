@@ -269,17 +269,17 @@
       submitBtn.textContent = 'Processing...';
       submitBtn.disabled = true;
 
-      // Collect form data (UNCHANGED)
-      const fullName = (document.getElementById('fullName').value || '').trim();
-      const phone = (document.getElementById('phone').value || '').trim();
-      const payerName = (document.getElementById('payerName').value || '').trim();
-      const destination = destinationSelect.value;
-      const pickupPoint = pickupSelect.value;
-      const travelDate = document.getElementById('travelDate').value;
-      const emergencyName = document.getElementById('emergencyName').value;
-      const emergencyPhone = document.getElementById('emergencyPhone').value;
-      const busType = getCheckedBusType();
-      const price = updatePrice() || 0;
+       // Collect form data 
+    const fullName = (document.getElementById('fullName').value || '').trim();
+    const phone = (document.getElementById('phone').value || '').trim();
+    const payerName = (document.getElementById('payerName').value || '').trim();
+    const destination = destinationSelect.value;
+    const pickupPoint = pickupSelect.value;
+    const travelDate = document.getElementById('travelDate').value;
+    const emergencyName = document.getElementById('emergencyName').value;
+    const emergencyPhone = document.getElementById('emergencyPhone').value;
+    const busType = getCheckedBusType();
+    const price = updatePrice() || 0;
 
       // Validation (UNCHANGED)
       let isValid = true;
@@ -301,19 +301,20 @@
       }
 
       // ====== SEND DATA TO GOOGLE SHEETS ======
-      try {
-        const formData = {
-          fullName,
-          phone,
-          destination,
-          pickupPoint,
-          travelDate,
-          busType,
-          price,
-          payerName,
-          emergencyName,
-          emergencyPhone
-        };
+       // Build form data object
+    const formData = {
+        fullName,
+        phone,
+        payerName,
+        destination,
+        pickupPoint,
+        travelDate,
+        emergencyName,
+        emergencyPhone,
+        busType,
+        price,
+        bookingReference: 'DNG-' + Date.now() // Simple unique ID
+    };
 
         // Send to Google Apps Script
         const response = await fetch(GOOGLE_SCRIPT_URL, {
